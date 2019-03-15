@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_login_register"
+    tools:context=".view.RegisterActivity">
+
+    <EditText
+        android:id="@+id/register_phone_number"
+        style="@style/edit_background"
+        app:layout_constraintBottom_toTopOf="@+id/register_username"
+        android:layout_marginBottom="15dp"
+        android:hint="@string/input_phone_number" />
+
+    <EditText
+        android:id="@+id/register_username"
+        style="@style/edit_background"
+        app:layout_constraintBottom_toTopOf="@+id/register_password"
+        android:layout_marginBottom="15dp"
+        android:hint="@string/input_username" />
+
+    <EditText
+        android:id="@+id/register_password"
+        style="@style/edit_background"
+        android:hint="@string/input_password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/register_btn"
+        style="@style/button_login_register"
+        android:layout_marginTop="20dp"
+        android:hint="@string/register_text"
+        app:layout_constraintTop_toBottomOf="@id/register_password" />
+
+</android.support.constraint.ConstraintLayout>

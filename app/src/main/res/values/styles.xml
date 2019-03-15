@@ -1,11 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="edit_width_height">
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">300dp</item>
+    </style>
+
+    <style name="weight_center_horizontal" parent="edit_width_height">
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="edit_background" parent="weight_center_horizontal">
+        <item name="android:background">@drawable/shape_input_white_frame</item>
+        <item name="android:textColorHint">@color/background_login_register</item>
+        <item name="android:textCursorDrawable">@color/input_cursor</item>
+        <item name="android:textColor">@color/input_cursor</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="button_login_register" parent="weight_center_horizontal">
+        <item name="android:background">@drawable/button_click_background</item>
+        <item name="android:textColorHint">@color/clr_white_font</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
