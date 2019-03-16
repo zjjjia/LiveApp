@@ -28,7 +28,8 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-
+                subscriber.onNext("successful");
+                subscriber.onCompleted();
             }
         })
                 .subscribeOn(Schedulers.io())
@@ -46,7 +47,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
                     @Override
                     public void onNext(String result) {
                         //登录结果的逻辑处理
-
+                        mIView.onSuccessInLogin(result);
                     }
                 });
     }

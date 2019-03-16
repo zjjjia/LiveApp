@@ -24,10 +24,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText mPhoneNumberEdit;
     private EditText mUsernameEdit;
     private EditText mPasswordEdit;
-    private Button mRegisterBtn;
-    private String mUsernameStr;
-    private String mPhoneNumberStr;
-    private String mPasswordStr;
 
     private RegisterPresenter mRegisterPresenter;
 
@@ -37,7 +33,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
 
         initView();
-        loadRegisterMsg();
     }
 
     private void initView() {
@@ -45,29 +40,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mPhoneNumberEdit = findViewById(R.id.register_phone_number);
         mUsernameEdit = findViewById(R.id.register_username);
         mPasswordEdit = findViewById(R.id.register_password);
-        mRegisterBtn = findViewById(R.id.register_btn);
+        Button registerBtn = findViewById(R.id.register_btn);
 
-        mRegisterBtn.setOnClickListener(this);
+        registerBtn.setOnClickListener(this);
     }
 
     /**
      * 获取界面上输入的注册信息
      */
     private void loadRegisterMsg() {
-        mUsernameStr = mUsernameEdit.getText().toString();
-        mPhoneNumberStr = mPhoneNumberEdit.getText().toString();
-        mPasswordStr = mPasswordEdit.getText().toString();
-        if (mUsernameStr == null) {
-            Toast.makeText(this, R.string.username_cannot_null, Toast.LENGTH_SHORT);
-            return;
-        }
-        if (mPhoneNumberStr == null) {
-            Toast.makeText(this, R.string.username_cannot_null, Toast.LENGTH_SHORT);
-            return;
-        }
-        if (mPasswordStr == null) {
-            Toast.makeText(this, R.string.username_cannot_null, Toast.LENGTH_SHORT);
-            return;
+        String usernameStr = mUsernameEdit.getText().toString();
+        String phoneNumberStr = mPhoneNumberEdit.getText().toString();
+        String passwordStr = mPasswordEdit.getText().toString();
+        if (usernameStr.equals("")) {
+            Toast.makeText(this, R.string.username_cannot_null, Toast.LENGTH_SHORT).show();
+        } else if (phoneNumberStr.equals("")) {
+            Toast.makeText(this, R.string.username_cannot_null, Toast.LENGTH_SHORT).show();
+        } else if (passwordStr.equals("")) {
+            Toast.makeText(this, R.string.username_cannot_null, Toast.LENGTH_SHORT).show();
+        }else {
+            mRegisterPresenter.register(phoneNumberStr, usernameStr, passwordStr);
         }
 
     }
@@ -75,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /*-------------------------------这里是接口的实现--------------------------*/
     @Override
     public void onClick(View view) {
-        mRegisterPresenter.register(mPhoneNumberStr, mUsernameStr, mPasswordStr);
+        loadRegisterMsg();
     }
 
 

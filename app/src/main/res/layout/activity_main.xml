@@ -26,7 +26,6 @@
         android:id="@+id/login_in_btn"
         android:layout_marginTop="20dp"
         style="@style/button_login_register"
-        android:stateListAnimator="@null"
         app:layout_constraintTop_toBottomOf="@id/login_password"
         android:hint="@string/login_text"
         android:textSize="20sp"/>

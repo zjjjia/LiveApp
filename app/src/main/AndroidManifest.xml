@@ -20,9 +20,7 @@
         </activity>
         <activity
             android:name=".view.RegisterActivity"
-            android:launchMode="singleTask">
-
-        </activity>
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>
