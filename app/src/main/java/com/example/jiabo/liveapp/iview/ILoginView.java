@@ -14,10 +14,10 @@ public interface ILoginView extends IView {
     /**
      * 登录成功后的回调
      */
-    void onSuccessInLogin(String result);
+    void onSuccessInLogin(Object data);
 
     /**
      * 登录失败后的回调
      */
-    void onFailureInLogin();
+    void onFailureInLogin(String module, int errCode, String errMsg);
 }

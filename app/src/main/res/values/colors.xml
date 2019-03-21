@@ -3,9 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="background_login_register">#ebeaea</color>
-    <color name="clr_normal">#ea7f25</color>
+    <color name="color_gray">#ebeaea</color>
+    <color name="clr_yellow">#ea7f25</color>
     <color name="clr_pressed">#bf6921</color>
     <color name="input_cursor">#0e0e0e</color>
-    <color name="clr_white_font">#fcfcfc</color>
+    <color name="clr_white">#fcfcfc</color>
 </resources>
+
+

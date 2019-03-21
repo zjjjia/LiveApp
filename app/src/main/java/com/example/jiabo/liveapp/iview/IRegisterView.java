@@ -14,10 +14,10 @@ public interface IRegisterView extends IView {
     /**
      * 注册成功后的回调
      */
-    void onSuccessInRegister();
+    void onSuccessInRegister(String username, Object data);
 
     /**
      * 注册失败后的回调
      */
-    void onFailureInRegister();
+    void onFailureInRegister(String module, int errCode, String errMsg);
 }

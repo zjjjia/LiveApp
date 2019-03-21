@@ -4,15 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_login_register"
+    android:background="@color/color_gray"
     tools:context=".view.RegisterActivity">
-
-    <EditText
-        android:id="@+id/register_phone_number"
-        style="@style/edit_background"
-        app:layout_constraintBottom_toTopOf="@+id/register_username"
-        android:layout_marginBottom="15dp"
-        android:hint="@string/input_phone_number" />
 
     <EditText
         android:id="@+id/register_username"

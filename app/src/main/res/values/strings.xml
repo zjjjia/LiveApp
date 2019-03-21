@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">LiveApp</string>
-    <string name="input_username">请输入用户名</string>
-    <string name="input_password">请输入密码</string>
+    <string name="input_username">请输入用户名(4-24位数字和字母)</string>
+    <string name="input_password">请输入密码(8-16位)</string>
     <string name="input_phone_number">请输入手机号</string>
     <string name="login_text">登录</string>
     <string name="register_text">注册</string>
     <string name="step_into_register">没有账号？去注册</string>
-    <string name="username_cannot_null">用户名不能为空</string>
-    <string name="password_cannot_null">密码不能为空</string>
+    <string name="username_password_cannot_null">账号和密码不能为空</string>
+    <string name="password_length_invalid">密码不能小于8位或大于16位</string>
+    <string name="username_length_invalid">用户名不能小于4位大于24位</string>
+    <string name="register_failed">注册失败</string>
+    <string name="register_success">注册成功</string>
+    <string name="login_failed">登录失败</string>
+    <string name="login_success">登录成功</string>
 </resources>

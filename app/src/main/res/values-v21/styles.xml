@@ -3,7 +3,7 @@
 
     <style name="button_login_register" parent="weight_center_horizontal">
         <item name="android:background">@drawable/button_click_background</item>
-        <item name="android:textColorHint">@color/clr_white_font</item>
+        <item name="android:textColorHint">@color/clr_white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:stateListAnimator">@null</item>
