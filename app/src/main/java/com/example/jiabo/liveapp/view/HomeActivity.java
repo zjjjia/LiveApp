@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.Na
 
     /*---------------------这里是接口的实现----------------------------*/
 
-    /*-----事件接口的实现---------*/
+    /*-----事件监听接口的实现---------*/
     @Override
     public void homeClickListener() {
         mMainViewPager.setCurrentItem(HOME_PAGER_POSITION);
