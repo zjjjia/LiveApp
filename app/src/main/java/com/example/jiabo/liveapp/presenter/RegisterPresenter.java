@@ -2,10 +2,8 @@ package com.example.jiabo.liveapp.presenter;
 
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.iview.IRegisterView;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 
 /**
  * @author jiabo
@@ -16,32 +14,23 @@ import rx.schedulers.Schedulers;
  */
 public class RegisterPresenter extends BasePresenter<IRegisterView> {
 
+    private static final String TAG = "RegisterPresenter";
+
     public RegisterPresenter(IRegisterView iView) {
         super(iView);
     }
 
-    public void register(String phoneNumber, String username, String password) {
-        Observable.create(new Observable.OnSubscribe<String>() {
-            public void call(Subscriber<? super String> subscriber) {
-
+    public void register(final String username, String password) {
+        ILiveLoginManager.getInstance().tlsRegister(username, password, new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                mIView.onSuccessInRegister(username, data);
             }
-        })
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(String result) {
-                        //登录结果的处理
-                    }
-                });
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                mIView.onFailureInRegister(module, errCode, errMsg);
+            }
+        });
     }
 }

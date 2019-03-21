@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/navigation_home"
+        style="@style/bottom_navigation_button"
+        android:src="@drawable/home_yellow"/>
+
+    <ImageButton
+        android:id="@+id/navigation_live"
+        style="@style/bottom_navigation_button"
+        android:src="@drawable/live" />
+
+    <ImageButton
+        android:id="@+id/navigation_center"
+        style="@style/bottom_navigation_button"
+        android:src="@drawable/center" />
+
+</LinearLayout>

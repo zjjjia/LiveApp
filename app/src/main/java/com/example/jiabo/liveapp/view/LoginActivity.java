@@ -17,6 +17,8 @@ import com.example.jiabo.liveapp.presenter.LoginPresenter;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ILoginView {
 
     private static final String TAG = "LoginActivity";
+    private static final Integer REQUEST_CODE_FOR_REGISTER_ACTIVITY = 1001;
+    private static final Integer RESULT_CODE_FOR_LOGIN_ACTIVITY = 1002;
 
     private EditText mUserNameEdit;
     private EditText mUserPasswordEdit;
@@ -25,9 +27,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         initView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLoginPresenter.onDestroy();
     }
 
     private void initView() {
@@ -48,26 +56,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String usernameStr = mUserNameEdit.getText().toString();
         String passwordStr = mUserPasswordEdit.getText().toString();
         LogUtil.d(TAG, "loadLoginMessage: username = " + usernameStr + ";------ password = " + passwordStr);
-        if (usernameStr.equals("")) {
-            LogUtil.e(TAG, "loadLoginMessage: username = null" );
-            Toast.makeText(this, R.string.username_cannot_null, Toast.LENGTH_SHORT).show();
-        }else if (passwordStr.equals("")) {
-            LogUtil.e(TAG, "loadLoginMessage: password = null" );
-            Toast.makeText(this, R.string.password_cannot_null, Toast.LENGTH_SHORT).show();
-        }else{
+        if (usernameStr.isEmpty() || passwordStr.isEmpty()) {
+            LogUtil.e(TAG, "loadLoginMessage: username = null");
+            Toast.makeText(this, R.string.username_password_cannot_null, Toast.LENGTH_SHORT).show();
+        } else {
             mLoginPresenter.login(usernameStr, passwordStr);
         }
     }
 
+    /**
+     * 跳转到注册页面
+     */
     private void stepIntoRegisterView() {
         Intent intent = new Intent();
         intent.setClass(this, RegisterActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_FOR_REGISTER_ACTIVITY);
+    }
+
+    /**
+     * 登录成功，跳转到首页
+     */
+    private void stepIntoHomePage() {
+        Intent intent = new Intent();
+        intent.setClass(this, HomeActivity.class);
         startActivity(intent);
+        this.finish();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        LogUtil.d(TAG, "requestCode : " + requestCode + " | resultCode: " + resultCode);
+        if (requestCode == REQUEST_CODE_FOR_REGISTER_ACTIVITY && resultCode == RESULT_CODE_FOR_LOGIN_ACTIVITY) {
+            String username = data.getStringExtra("resultData");
+            mUserNameEdit.setText(username);
+        }
     }
 
     /*---------------------这里是接口的实现---------------------------*/
@@ -80,9 +102,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.login_in_btn:
                 //登录的操作
-                LogUtil.d(TAG, "onClick: login");
-                loadLoginMessage();
-
+                //loadLoginMessage();
+                stepIntoHomePage();
                 break;
             case R.id.step_into_register:
                 //没有账号，去注册
@@ -92,13 +113,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onSuccessInLogin(String result) {
-
+    public void onSuccessInLogin(Object data) {
+        LogUtil.d(TAG, "onSuccessInLogin: " + data);
+        Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
+        stepIntoHomePage();
     }
 
     @Override
-    public void onFailureInLogin() {
-
+    public void onFailureInLogin(String module, int errCode, String errMsg) {
+        LogUtil.d(TAG, "onFailureInLogin: module: " + module + " | errCode: " + errCode
+                + " | errMsg: " + errMsg);
+        Toast.makeText(this, R.string.login_failed + ": " + errMsg, Toast.LENGTH_SHORT)
+                .show();
     }
 
 }
