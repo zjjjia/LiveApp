@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.view;
+package com.example.jiabo.liveapp.view.customs;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -28,8 +28,7 @@ public class NavigationView extends LinearLayout implements View.OnClickListener
     private NavigationClickListener mClickListener;
 
     private final static int HOME_PAGER_POSITION = 0;
-    private final static int LIVE_PAGER_POSITION = 1;
-    private final static int CENTER_PAGER_POSITION = 2;
+    private final static int CENTER_PAGER_POSITION = 1;
 
     public NavigationView(Context context) {
         super(context);
@@ -66,11 +65,6 @@ public class NavigationView extends LinearLayout implements View.OnClickListener
                 liveBtn.setImageDrawable(getResources().getDrawable(R.drawable.live));
                 centerBtn.setImageDrawable(getResources().getDrawable(R.drawable.center));
                 break;
-            case LIVE_PAGER_POSITION:
-                homeBtn.setImageDrawable(getResources().getDrawable(R.drawable.home));
-                liveBtn.setImageDrawable(getResources().getDrawable(R.drawable.live_yellow));
-                centerBtn.setImageDrawable(getResources().getDrawable(R.drawable.center));
-                break;
             case CENTER_PAGER_POSITION:
                 homeBtn.setImageDrawable(getResources().getDrawable(R.drawable.home));
                 liveBtn.setImageDrawable(getResources().getDrawable(R.drawable.live));
@@ -99,7 +93,7 @@ public class NavigationView extends LinearLayout implements View.OnClickListener
         }
     }
 
-    interface NavigationClickListener {
+    public interface NavigationClickListener {
         void homeClickListener();
 
         void liveClickListener();

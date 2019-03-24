@@ -24,7 +24,13 @@
         <activity
             android:name=".view.RegisterActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".view.HomeActivity"></activity>
+        <activity
+            android:name=".view.HomeActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.CreateLiveActivity"
+            android:launchMode="singleTask" />
+
     </application>
 
 </manifest>
