@@ -30,6 +30,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxjava:1.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     //iLiveSDK
     compile 'com.tencent.ilivesdk:ilivesdk:1.9.6'
 }

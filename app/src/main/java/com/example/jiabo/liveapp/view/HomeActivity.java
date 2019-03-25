@@ -8,19 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.adapter.NavigationPagerAdapter;
 import com.example.jiabo.liveapp.view.Framgent.CenterFragment;
-import com.example.jiabo.liveapp.view.Framgent.HomeFragment;
-import com.example.jiabo.liveapp.view.customs.NavigationView;
-import com.example.jiabo.liveapp.view.customs.NoScrollViewPager;
+import com.example.jiabo.liveapp.view.Framgent.LiveListFragment;
+import com.example.jiabo.liveapp.view.customView.CustomNavigationView;
+import com.example.jiabo.liveapp.view.customView.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.NavigationClickListener {
+public class HomeActivity extends AppCompatActivity implements CustomNavigationView.NavigationClickListener {
 
     private static final String TAG = "HomeActivity";
 
     private NoScrollViewPager mMainViewPager;
-    private NavigationView mNavigationView;
+    private CustomNavigationView mCustomNavigationView;
     private final static int HOME_PAGER_POSITION = 0;
     private final static int CENTER_PAGER_POSITION = 1;
 
@@ -33,19 +33,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.Na
     }
 
     private void initView() {
-        mNavigationView = findViewById(R.id.bottom_navigation);
+        mCustomNavigationView = findViewById(R.id.bottom_navigation);
         mMainViewPager = findViewById(R.id.main_viewpager);
         mMainViewPager.setNoScroll(true);
 
         initFragmentView();
-        mNavigationView.setOnClickListener(this);
+        mCustomNavigationView.setOnClickListener(this);
 
     }
 
     private void initFragmentView() {
         List<Fragment> fragments = new ArrayList<>();
 
-        fragments.add(new HomeFragment());
+        fragments.add(new LiveListFragment());
         fragments.add(new CenterFragment());
 
         NavigationPagerAdapter navigationAdapter = new NavigationPagerAdapter(getSupportFragmentManager(),
@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.Na
     @Override
     public void homeClickListener() {
         mMainViewPager.setCurrentItem(HOME_PAGER_POSITION, false);
-        mNavigationView.changeButtonIco(HOME_PAGER_POSITION);
+        mCustomNavigationView.changeButtonIco(HOME_PAGER_POSITION);
     }
 
     @Override
@@ -80,6 +80,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.Na
     @Override
     public void centerClickListener() {
         mMainViewPager.setCurrentItem(CENTER_PAGER_POSITION, false);
-        mNavigationView.changeButtonIco(CENTER_PAGER_POSITION);
+        mCustomNavigationView.changeButtonIco(CENTER_PAGER_POSITION);
     }
 }

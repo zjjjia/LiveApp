@@ -1,10 +1,9 @@
-package com.example.jiabo.liveapp.view.customs;
+package com.example.jiabo.liveapp.view.customView;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.jiabo.liveapp.Utils.LogUtil;
