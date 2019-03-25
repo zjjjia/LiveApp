@@ -6,19 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".view.HomeActivity">
 
-    <com.example.jiabo.liveapp.view.NavigationView
+    <com.example.jiabo.liveapp.view.customView.CustomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="InvalidId" />
 
-    <android.support.v4.view.ViewPager
+    <com.example.jiabo.liveapp.view.customView.NoScrollViewPager
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp">
 
-    </android.support.v4.view.ViewPager>
+    </com.example.jiabo.liveapp.view.customView.NoScrollViewPager>
 
 </android.support.constraint.ConstraintLayout>

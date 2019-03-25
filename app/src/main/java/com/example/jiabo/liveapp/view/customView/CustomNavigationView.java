@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.view;
+package com.example.jiabo.liveapp.view.customView;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,12 +13,12 @@ import com.example.jiabo.liveapp.Utils.LogUtil;
 
 /**
  * @author jiabo
- * Date: 2019/3/19 & 21:42
- * Version : 1.0
- * description : 自定义view底部导航栏的实现类
- * * Modify by
+ *         Date: 2019/3/19 & 21:42
+ *         Version : 1.0
+ *         description : 自定义view底部导航栏的实现类
+ *         * Modify by
  */
-public class NavigationView extends LinearLayout implements View.OnClickListener {
+public class CustomNavigationView extends LinearLayout implements View.OnClickListener {
 
     private static final String TAG = "ItemNavigationView";
 
@@ -28,15 +28,14 @@ public class NavigationView extends LinearLayout implements View.OnClickListener
     private NavigationClickListener mClickListener;
 
     private final static int HOME_PAGER_POSITION = 0;
-    private final static int LIVE_PAGER_POSITION = 1;
-    private final static int CENTER_PAGER_POSITION = 2;
+    private final static int CENTER_PAGER_POSITION = 1;
 
-    public NavigationView(Context context) {
+    public CustomNavigationView(Context context) {
         super(context);
         initView();
     }
 
-    public NavigationView(Context context, @NonNull AttributeSet attrs) {
+    public CustomNavigationView(Context context, @NonNull AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
@@ -64,11 +63,6 @@ public class NavigationView extends LinearLayout implements View.OnClickListener
             case HOME_PAGER_POSITION:
                 homeBtn.setImageDrawable(getResources().getDrawable(R.drawable.home_yellow));
                 liveBtn.setImageDrawable(getResources().getDrawable(R.drawable.live));
-                centerBtn.setImageDrawable(getResources().getDrawable(R.drawable.center));
-                break;
-            case LIVE_PAGER_POSITION:
-                homeBtn.setImageDrawable(getResources().getDrawable(R.drawable.home));
-                liveBtn.setImageDrawable(getResources().getDrawable(R.drawable.live_yellow));
                 centerBtn.setImageDrawable(getResources().getDrawable(R.drawable.center));
                 break;
             case CENTER_PAGER_POSITION:
@@ -99,7 +93,7 @@ public class NavigationView extends LinearLayout implements View.OnClickListener
         }
     }
 
-    interface NavigationClickListener {
+    public interface NavigationClickListener {
         void homeClickListener();
 
         void liveClickListener();
