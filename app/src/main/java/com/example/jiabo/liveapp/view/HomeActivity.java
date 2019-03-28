@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.adapter.NavigationPagerAdapter;
-import com.example.jiabo.liveapp.view.Framgent.CenterFragment;
+import com.example.jiabo.liveapp.view.Framgent.PersonalCenterFragment;
 import com.example.jiabo.liveapp.view.Framgent.LiveListFragment;
 import com.example.jiabo.liveapp.view.customView.CustomNavigationView;
 import com.example.jiabo.liveapp.view.customView.NoScrollViewPager;
@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity implements CustomNavigationV
         List<Fragment> fragments = new ArrayList<>();
 
         fragments.add(new LiveListFragment());
-        fragments.add(new CenterFragment());
+        fragments.add(new PersonalCenterFragment());
 
         NavigationPagerAdapter navigationAdapter = new NavigationPagerAdapter(getSupportFragmentManager(),
                 fragments);

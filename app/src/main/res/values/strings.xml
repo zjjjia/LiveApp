@@ -14,4 +14,6 @@
     <string name="register_success">注册成功</string>
     <string name="login_failed">登录失败</string>
     <string name="login_success">登录成功</string>
+    <string name="set_personal_data">编辑资料</string>
+    <string name="logout">退出登录</string>
 </resources>
