@@ -6,7 +6,7 @@ import android.net.Uri;
 /**
  * Created by jiabo
  * Data : 2019/3/25
- * Description : 主页直播列表item的实习类
+ * Description : 主页直播列表item的实体类
  * Modify by
  */
 

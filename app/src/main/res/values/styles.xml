@@ -12,8 +12,8 @@
     </style>
 
     <style name="edit_background" parent="weight_center_horizontal">
-        <item name="android:background">@drawable/shape_input_white_frame</item>
-        <item name="android:textColorHint">@color/color_gray</item>
+        <item name="android:background">@drawable/bg_input_fillet_white</item>
+        <item name="android:textColorHint">@color/color_text_gray</item>
         <item name="android:textCursorDrawable">@color/input_cursor</item>
         <item name="android:textColor">@color/input_cursor</item>
         <item name="android:textSize">15sp</item>
