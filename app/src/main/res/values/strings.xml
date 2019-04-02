@@ -14,6 +14,8 @@
     <string name="register_success">注册成功</string>
     <string name="login_failed">登录失败</string>
     <string name="login_success">登录成功</string>
+    <string name="set_personal_data">编辑资料</string>
+    <string name="logout">退出登录</string>
     <string name="set_live_cover">设置封面</string>
     <string name="set_live_title">请输入直播标题</string>
     <string name="set_live_resolving_power">设置分辨率</string>
