@@ -3,11 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="color_gray">#ebeaea</color>
+    <color name="color_background_gray">#ebeaea</color>
     <color name="clr_yellow">#ea7f25</color>
     <color name="clr_pressed">#bf6921</color>
     <color name="input_cursor">#0e0e0e</color>
     <color name="clr_white">#fcfcfc</color>
+    <color name="clr_translucent">#bfb1b1b1</color>
+    <color name="color_text_gray">#707070</color>
+    <color name="color_press_gray">#bfbfbf</color>
 </resources>
 
 

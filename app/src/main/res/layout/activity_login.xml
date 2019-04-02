@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.jiabo.liveapp.view.LoginActivity"
-    android:background="@color/color_gray">
+    android:background="@color/color_background_gray">
 
     <EditText
         android:id="@+id/login_username"

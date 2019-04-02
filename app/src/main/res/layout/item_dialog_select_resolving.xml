@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/clr_white">
+
+    <!--<Button
+        android:id="@+id/dialog_cancel_btn"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:background="@drawable/btn_white_angle_bg"
+        android:stateListAnimator="@null"
+        android:text="@string/cancel"
+        android:textColor="@color/color_text_gray"
+        android:textSize="15sp"/>
+
+    <Button
+        android:id="@+id/dialog_confirm_btn"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/btn_white_angle_bg"
+        android:stateListAnimator="@null"
+        android:text="@string/confirm"
+        android:textColor="@color/color_text_gray"
+        android:textSize="15sp"/>-->
+
+    <com.example.jiabo.liveapp.view.customView.PickerView
+        android:id="@+id/select_resolving_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
