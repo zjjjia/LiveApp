@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.iview;
+package com.example.jiabo.liveapp.presenter.iview;
 
 import com.example.jiabo.liveapp.base.IView;
 

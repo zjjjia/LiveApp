@@ -1,35 +1,55 @@
 package com.example.jiabo.liveapp.presenter;
 
+import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.base.BasePresenter;
-import com.example.jiabo.liveapp.iview.IRegisterView;
-import com.tencent.ilivesdk.ILiveCallBack;
-import com.tencent.ilivesdk.core.ILiveLoginManager;
+import com.example.jiabo.liveapp.callBack.HttpRequestCallback;
+import com.example.jiabo.liveapp.model.RegisterAndLoginModel;
+import com.example.jiabo.liveapp.model.entity.RequestBackInfo;
+import com.example.jiabo.liveapp.presenter.iview.IRegisterView;
 
 /**
  * @author jiabo
- * Date: 2019/3/15 & 11:21
- * Version : 1.0
- * description : 注册的prenter
- * * Modify by
+ *         Date: 2019/3/15 & 11:21
+ *         Version : 1.0
+ *         description : 注册的prenter
+ *         * Modify by
  */
 public class RegisterPresenter extends BasePresenter<IRegisterView> {
 
     private static final String TAG = "RegisterPresenter";
+    private RegisterAndLoginModel model;
 
     public RegisterPresenter(IRegisterView iView) {
         super(iView);
+        model = new RegisterAndLoginModel();
     }
 
     public void register(final String username, String password) {
-        ILiveLoginManager.getInstance().tlsRegister(username, password, new ILiveCallBack() {
+        model.register(username, password, new HttpRequestCallback<RequestBackInfo>() {
             @Override
-            public void onSuccess(Object data) {
-                mIView.onSuccessInRegister(username, data);
+            public void onSuccess(RequestBackInfo response) {
+                LogUtil.d(TAG, "onSuccess: " + response.toString());
+                if (mIView == null) {
+                    LogUtil.e(TAG, "onSuccess: mIView = null!");
+                    return;
+                }
+                if (response.getErrorCode() == 0) {
+                    mIView.onSuccessInRegister(username);
+                } else {
+                    LogUtil.e(TAG, "onError: register failed! errorCode: " + response.getErrorCode()
+                            + " | errorInfo: " + response.getErrorInfo());
+                    mIView.onFailureInRegister(response.getErrorCode(), response.getErrorInfo());
+                }
             }
 
             @Override
-            public void onError(String module, int errCode, String errMsg) {
-                mIView.onFailureInRegister(module, errCode, errMsg);
+            public void onError(int errorCode, String errorInfo) {
+                LogUtil.e(TAG, "onError: errorCode: " + errorCode + ", errorInfo: " + errorInfo);
+                if (mIView == null) {
+                    LogUtil.e(TAG, "onError: mIView = null");
+                    return;
+                }
+                mIView.onFailureInRegister(errorCode, errorInfo);
             }
         });
     }

@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.jiabo.liveapp.R;
-import com.example.jiabo.liveapp.iview.IPersonalCenterView;
+import com.example.jiabo.liveapp.presenter.iview.IPersonalCenterView;
 import com.example.jiabo.liveapp.presenter.PersonalCenterPresenter;
 
 /**

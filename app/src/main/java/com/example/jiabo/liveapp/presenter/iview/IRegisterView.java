@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.iview;
+package com.example.jiabo.liveapp.presenter.iview;
 
 import com.example.jiabo.liveapp.base.IView;
 
@@ -14,10 +14,10 @@ public interface IRegisterView extends IView {
     /**
      * 注册成功后的回调
      */
-    void onSuccessInRegister(String username, Object data);
+    void onSuccessInRegister(String username);
 
     /**
      * 注册失败后的回调
      */
-    void onFailureInRegister(String module, int errCode, String errMsg);
+    void onFailureInRegister(int errCode, String errMsg);
 }

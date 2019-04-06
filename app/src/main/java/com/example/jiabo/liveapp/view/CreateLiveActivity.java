@@ -14,14 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jiabo.liveapp.R;
-import com.example.jiabo.liveapp.iview.ICreateLiveView;
+import com.example.jiabo.liveapp.base.BaseActivity;
+import com.example.jiabo.liveapp.presenter.iview.ICreateLiveView;
 import com.example.jiabo.liveapp.presenter.CreateLivePresenter;
 import com.example.jiabo.liveapp.view.customView.PickerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateLiveActivity extends AppCompatActivity implements View.OnClickListener, ICreateLiveView {
+public class CreateLiveActivity extends BaseActivity implements View.OnClickListener, ICreateLiveView {
 
     private static final String TAG = "CreateLiveActivity";
 
@@ -41,7 +42,7 @@ public class CreateLiveActivity extends AppCompatActivity implements View.OnClic
     private String mResolvingPower;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_live);
         mCreateLivePresenter = new CreateLivePresenter(this);
@@ -106,6 +107,12 @@ public class CreateLiveActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mCreateLivePresenter.onDestroy();
     }
 
     private void initPickViewDataList() {

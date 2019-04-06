@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">LiveApp</string>
-    <string name="input_username">请输入用户名(4-24位数字和字母)</string>
-    <string name="input_password">请输入密码(8-16位)</string>
-    <string name="input_phone_number">请输入手机号</string>
+    <string name="input_username">请输入用户名(4–24位数字和字母)</string>
+    <string name="input_password">请输入密码(8–16位)</string>
     <string name="login_text">登录</string>
     <string name="register_text">注册</string>
     <string name="step_into_register">没有账号？去注册</string>
-    <string name="username_password_cannot_null">账号和密码不能为空</string>
-    <string name="password_length_invalid">密码不能小于8位或大于16位</string>
-    <string name="username_length_invalid">用户名不能小于4位大于24位</string>
+    <string name="str_cannot_null">账号和密码不能为空</string>
+    <string name="str_hint_password">密码长度为8~16个字符</string>
+    <string name="str_hint_account">用户名为4~24个字符，不能为纯数字</string>
     <string name="register_failed">注册失败</string>
     <string name="register_success">注册成功</string>
     <string name="login_failed">登录失败</string>
@@ -24,4 +23,10 @@
     <string name="confirm">确认</string>
     <string name="must_select_cover">请设置封面</string>
     <string name="must_set_title">请设置标题</string>
+    <string name="request_time_out">请求超时</string>
+    <string name="connect_time_out">网络连接超时</string>
+    <string name="internet_error">网络异常</string>
+    <string name="url_not_exist">请求的地址不存在</string>
+    <string name="request_failed">请求失败</string>
+    <string name="domain_name_resolution_failed">域名解析失败</string>
 </resources>

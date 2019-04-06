@@ -1,12 +1,13 @@
-package com.example.jiabo.liveapp.iview;
+package com.example.jiabo.liveapp.presenter.iview;
 
 import com.example.jiabo.liveapp.base.IView;
+import com.example.jiabo.liveapp.model.entity.LoginResponseEntity;
 
 /**
  * @author jiabo
  * Date: 2019/3/15 & 9:51
  * Version : 1.0
- * description :
+ * description : 登录界面数据接口类
  * * Modify by
  */
 public interface ILoginView extends IView {
@@ -14,10 +15,10 @@ public interface ILoginView extends IView {
     /**
      * 登录成功后的回调
      */
-    void onSuccessInLogin(Object data);
+    void onSuccessInLogin(LoginResponseEntity data);
 
     /**
      * 登录失败后的回调
      */
-    void onFailureInLogin(String module, int errCode, String errMsg);
+    void onFailureInLogin(int errCode, String errMsg);
 }
