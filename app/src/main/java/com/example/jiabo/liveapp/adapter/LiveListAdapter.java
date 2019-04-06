@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.Utils.LogUtil;
-import com.example.jiabo.liveapp.entity.LiveListEntity;
+import com.example.jiabo.liveapp.model.entity.LiveListEntity;
 
 import java.util.ArrayList;
 import java.util.List;

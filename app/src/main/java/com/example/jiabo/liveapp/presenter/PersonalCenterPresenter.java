@@ -1,7 +1,7 @@
 package com.example.jiabo.liveapp.presenter;
 
 import com.example.jiabo.liveapp.base.BasePresenter;
-import com.example.jiabo.liveapp.iview.IPersonalCenterView;
+import com.example.jiabo.liveapp.presenter.iview.IPersonalCenterView;
 
 /**
  * Created by jiabo

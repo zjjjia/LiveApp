@@ -2,8 +2,6 @@ package com.example.jiabo.liveapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,28 +9,31 @@ import android.widget.Toast;
 
 import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.Utils.LogUtil;
-import com.example.jiabo.liveapp.iview.IRegisterView;
+import com.example.jiabo.liveapp.base.BaseActivity;
+import com.example.jiabo.liveapp.constant.OtherCode;
+import com.example.jiabo.liveapp.presenter.iview.IRegisterView;
 import com.example.jiabo.liveapp.presenter.RegisterPresenter;
+
+import java.util.regex.Pattern;
 
 /**
  * @author jiabo
- * Date: 2019/3/15 & 10:06
- * Version : 1.0
- * description : 注册的view
- * * Modify by
+ *         Date: 2019/3/15 & 10:06
+ *         Version : 1.0
+ *         description : 注册的view
+ *         * Modify by
  */
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, IRegisterView {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, IRegisterView {
 
     private static final String TAG = "RegisterActivity";
 
     private EditText mUsernameEdit;
     private EditText mPasswordEdit;
     private RegisterPresenter mRegisterPresenter;
-    private static final Integer RESULT_CODE_FOR_LOGIN_ACTIVITY = 1002;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -40,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    protected  void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         mRegisterPresenter.onDestroy();
     }
@@ -60,18 +61,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void loadRegisterMsg() {
         String usernameStr = mUsernameEdit.getText().toString();
         String passwordStr = mPasswordEdit.getText().toString();
-        if (TextUtils.isEmpty(usernameStr) || TextUtils.isEmpty(passwordStr)) {
-            LogUtil.d(TAG, "loadRegisterMsg: username or password = null");
-            Toast.makeText(this, R.string.username_password_cannot_null, Toast.LENGTH_SHORT).show();
-        } else if (usernameStr.getBytes().length < 4 || usernameStr.getBytes().length > 24) {
-            LogUtil.d(TAG, "loadRegisterMsg: username bytes length are invalid");
-            Toast.makeText(this, R.string.username_length_invalid, Toast.LENGTH_SHORT).show();
-        } else if (passwordStr.getBytes().length < 8 || passwordStr.getBytes().length > 16) {
-            LogUtil.d(TAG, "loadRegisterMsg: password bytes length are invalid");
-            Toast.makeText(this, R.string.password_length_invalid, Toast.LENGTH_SHORT).show();
-        } else {
-            mRegisterPresenter.register(usernameStr, passwordStr);
+        if (usernameStr.length() < 4 || usernameStr.length() > 24
+                || Pattern.compile("^[0-9]*$").matcher(usernameStr).matches()
+                || !Pattern.compile("^[a-zA-Z0-9_]*$").matcher(usernameStr).matches()) {
+            LogUtil.i(TAG, "loadRegisterMsg: " + usernameStr.length());
+            Toast.makeText(this, R.string.str_hint_account, Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        if (usernameStr.length() == 0 || passwordStr.length() == 0) {
+            Toast.makeText(this, R.string.str_cannot_null, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (passwordStr.length() < 8 || passwordStr.length() > 16) {
+            Toast.makeText(this, R.string.str_hint_password, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mRegisterPresenter.register(usernameStr, passwordStr);
 
     }
 
@@ -81,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void resultForLoginActivity(String resultData) {
         Intent intent = new Intent();
         intent.putExtra("resultData", resultData);
-        setResult(RESULT_CODE_FOR_LOGIN_ACTIVITY, intent);
+        setResult(OtherCode.RESULT_CODE, intent);
         this.finish();
     }
 
@@ -93,16 +100,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     @Override
-    public void onSuccessInRegister(String username, Object data) {
-        LogUtil.d(TAG, "register successful!!!   return data: " + data);
+    public void onSuccessInRegister(String username) {
         Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show();
         resultForLoginActivity(username);
     }
 
     @Override
-    public void onFailureInRegister(String module, int errCode, String errMsg) {
-        LogUtil.e(TAG, "register failed : " + module + " | " + +errCode + " | " + errMsg);
-        Toast.makeText(this, R.string.register_failed + ": " + errMsg,
-                Toast.LENGTH_SHORT).show();
+    public void onFailureInRegister(int errCode, String errMsg) {
+        Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 }

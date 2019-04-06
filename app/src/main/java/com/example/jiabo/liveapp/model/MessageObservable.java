@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * @author jiabo
  * Date: 2019/3/18 & 8:42
  * Version : 1.0
- * description :
+ * description : 消息观察者
  * * Modify by
  */
 public class MessageObservable implements ILiveMessageListener {

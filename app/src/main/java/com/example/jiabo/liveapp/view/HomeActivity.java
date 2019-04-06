@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.adapter.NavigationPagerAdapter;
+import com.example.jiabo.liveapp.base.BaseActivity;
 import com.example.jiabo.liveapp.view.Framgent.PersonalCenterFragment;
 import com.example.jiabo.liveapp.view.Framgent.LiveListFragment;
 import com.example.jiabo.liveapp.view.customView.CustomNavigationView;
@@ -15,7 +16,7 @@ import com.example.jiabo.liveapp.view.customView.NoScrollViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements CustomNavigationView.NavigationClickListener {
+public class HomeActivity extends BaseActivity implements CustomNavigationView.NavigationClickListener {
 
     private static final String TAG = "HomeActivity";
 
@@ -25,14 +26,14 @@ public class HomeActivity extends AppCompatActivity implements CustomNavigationV
     private final static int CENTER_PAGER_POSITION = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         initView();
     }
 
-    private void initView() {
+    public void initView() {
         mCustomNavigationView = findViewById(R.id.bottom_navigation);
         mMainViewPager = findViewById(R.id.main_viewpager);
         mMainViewPager.setNoScroll(true);
