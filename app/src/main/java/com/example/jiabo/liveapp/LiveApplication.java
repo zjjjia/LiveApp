@@ -2,7 +2,7 @@ package com.example.jiabo.liveapp;
 
 import android.app.Application;
 
-import com.example.jiabo.liveapp.constant.ConfigCode;
+import com.example.jiabo.liveapp.constant.Constants;
 import com.example.jiabo.liveapp.model.MessageObservable;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
@@ -28,7 +28,7 @@ public class LiveApplication extends Application {
             //初始化LiveSdk
             ILiveSDK.getInstance().setCaptureMode(ILiveConstants.CAPTURE_MODE_SURFACETEXTURE);
             ILiveLog.setLogLevel(ILiveLog.TILVBLogLevel.DEBUG);
-            ILiveSDK.getInstance().initSdk(this, ConfigCode.SDK_APP_ID, ConfigCode.ACCOUNT_TYPE);
+            ILiveSDK.getInstance().initSdk(getApplicationContext(), Constants.SDK_APP_ID, Constants.ACCOUNT_TYPE);
             ILiveRoomManager.getInstance().init(new ILiveRoomConfig()
                     .setRoomMsgListener(MessageObservable.getInstance()));
         }

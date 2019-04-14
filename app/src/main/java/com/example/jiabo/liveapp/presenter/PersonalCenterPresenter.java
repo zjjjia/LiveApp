@@ -1,5 +1,7 @@
 package com.example.jiabo.liveapp.presenter;
 
+import android.content.Context;
+
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.presenter.iview.IPersonalCenterView;
 
@@ -13,8 +15,9 @@ import com.example.jiabo.liveapp.presenter.iview.IPersonalCenterView;
 public class PersonalCenterPresenter extends BasePresenter<IPersonalCenterView> {
 
 
-    public PersonalCenterPresenter(IPersonalCenterView iView) {
-        super(iView);
+    public PersonalCenterPresenter(Context context, IPersonalCenterView iView) {
+        super(context, iView);
+
     }
 
     /**

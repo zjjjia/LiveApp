@@ -1,10 +1,12 @@
 package com.example.jiabo.liveapp.presenter;
 
+import android.content.Context;
+
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.callBack.HttpRequestCallback;
 import com.example.jiabo.liveapp.model.RegisterAndLoginModel;
-import com.example.jiabo.liveapp.model.entity.RequestBackInfo;
+import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
 import com.example.jiabo.liveapp.presenter.iview.IRegisterView;
 
 /**
@@ -19,8 +21,8 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
     private static final String TAG = "RegisterPresenter";
     private RegisterAndLoginModel model;
 
-    public RegisterPresenter(IRegisterView iView) {
-        super(iView);
+    public RegisterPresenter(Context context, IRegisterView iView) {
+        super(context, iView);
         model = new RegisterAndLoginModel();
     }
 
@@ -28,7 +30,6 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
         model.register(username, password, new HttpRequestCallback<RequestBackInfo>() {
             @Override
             public void onSuccess(RequestBackInfo response) {
-                LogUtil.d(TAG, "onSuccess: " + response.toString());
                 if (mIView == null) {
                     LogUtil.e(TAG, "onSuccess: mIView = null!");
                     return;

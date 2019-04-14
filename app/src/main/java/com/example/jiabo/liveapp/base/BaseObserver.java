@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.network;
+package com.example.jiabo.liveapp.base;
 
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.constant.ErrorCode;

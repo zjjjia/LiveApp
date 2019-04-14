@@ -13,7 +13,6 @@ import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.base.BaseActivity;
 import com.example.jiabo.liveapp.constant.OtherCode;
-import com.example.jiabo.liveapp.model.entity.LoginResponseEntity;
 import com.example.jiabo.liveapp.presenter.iview.ILoginView;
 import com.example.jiabo.liveapp.presenter.LoginPresenter;
 
@@ -42,7 +41,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initView() {
-        mLoginPresenter = new LoginPresenter(this);
+        mLoginPresenter = new LoginPresenter(this, this);
         mUserNameEdit = findViewById(R.id.login_username);
         mUserPasswordEdit = findViewById(R.id.login_password);
         Button loginBtn = findViewById(R.id.login_in_btn);
@@ -128,7 +127,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onSuccessInLogin(LoginResponseEntity data) {
+    public void onSuccessInLogin() {
         Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
         stepIntoHomePage();
     }

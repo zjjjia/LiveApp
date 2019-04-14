@@ -47,7 +47,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
-        mRegisterPresenter = new RegisterPresenter(this);
+        mRegisterPresenter = new RegisterPresenter(this,this);
         mUsernameEdit = findViewById(R.id.register_username);
         mPasswordEdit = findViewById(R.id.register_password);
         Button registerBtn = findViewById(R.id.register_btn);

@@ -18,6 +18,12 @@
     <string name="set_live_cover">设置封面</string>
     <string name="set_live_title">请输入直播标题</string>
     <string name="set_live_resolving_power">设置分辨率</string>
+    <string name="str_dt_hd2">1280*720</string>
+    <string name="str_dt_hd">960*540</string>
+    <string name="str_dt_sd2">640*480</string>
+    <string name="str_dt_sd">640*368</string>
+    <string name="str_dt_ld2">480*360</string>
+    <string name="str_dt_ld">320*240</string>
     <string name="start_live">开始直播</string>
     <string name="cancel">取消</string>
     <string name="confirm">确认</string>
@@ -29,4 +35,7 @@
     <string name="url_not_exist">请求的地址不存在</string>
     <string name="request_failed">请求失败</string>
     <string name="domain_name_resolution_failed">域名解析失败</string>
+    <string name="take_photo">拍照</string>
+    <string name="choose_in_album">从手机相册选择</string>
+
 </resources>
