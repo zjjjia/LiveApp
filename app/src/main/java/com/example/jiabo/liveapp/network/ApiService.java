@@ -1,8 +1,9 @@
 package com.example.jiabo.liveapp.network;
 
-import com.example.jiabo.liveapp.model.entity.LoginResponseEntity;
-import com.example.jiabo.liveapp.model.entity.RequestBackInfo;
-import com.example.jiabo.liveapp.model.entity.UserInfoEntity;
+import com.example.jiabo.liveapp.network.entity.CreateRoomResponse;
+import com.example.jiabo.liveapp.network.entity.responseLiveRoomInfo;
+import com.example.jiabo.liveapp.network.entity.LoginResponse;
+import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -25,6 +26,18 @@ public interface ApiService {
                                          @Body RequestBody requestBody);
 
     @POST
-    Observable<RequestBackInfo<LoginResponseEntity>> login(@Url String url, @Query("svc") String svc, @Query("cmd") String cmd,
-                                                           @Body RequestBody requestBody);
+    Observable<RequestBackInfo<LoginResponse>> login(@Url String url, @Query("svc") String svc,
+                                                     @Query("cmd") String cmd, @Body RequestBody requestBody);
+
+    @POST
+    Observable<RequestBackInfo<CreateRoomResponse>> createRoom(@Url String url, @Query("svc") String svc,
+                                                               @Query("cmd") String cmd, @Body RequestBody requestBody);
+
+    @POST
+    Observable<RequestBackInfo> reportRoomInfo(@Url String url, @Query("svc") String svc, @Query("cmd") String cmd,
+                                               @Body RequestBody requestBody);
+
+    @POST
+    Observable<RequestBackInfo<responseLiveRoomInfo>> loadLiveRoomInfo(@Url String url, @Query("svc") String svc,
+                                                                       @Query("cmd") String cmd, @Body RequestBody requestBody);
 }

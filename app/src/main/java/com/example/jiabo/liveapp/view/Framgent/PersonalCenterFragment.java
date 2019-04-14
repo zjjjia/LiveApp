@@ -32,7 +32,7 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_center_pager, null);
-        mPersonalPresenter = new PersonalCenterPresenter(this);
+        mPersonalPresenter = new PersonalCenterPresenter(getActivity(), this);
         initView(view);
 
         return view;

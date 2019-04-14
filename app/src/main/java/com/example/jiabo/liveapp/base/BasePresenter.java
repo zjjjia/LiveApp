@@ -1,5 +1,7 @@
 package com.example.jiabo.liveapp.base;
 
+import android.content.Context;
+
 /**
  * @author jiabo
  * Date: 2019/3/15 & 9:55
@@ -9,8 +11,10 @@ package com.example.jiabo.liveapp.base;
  */
 public abstract class BasePresenter<T extends IView> {
     protected T mIView;
+    public Context mContext;
 
-    public BasePresenter(T iView){
+    public BasePresenter(Context context, T iView){
+        mContext = context;
         this.mIView = iView;
     }
 

@@ -1,7 +1,6 @@
 package com.example.jiabo.liveapp.presenter.iview;
 
 import com.example.jiabo.liveapp.base.IView;
-import com.example.jiabo.liveapp.model.entity.LoginResponseEntity;
 
 /**
  * @author jiabo
@@ -15,7 +14,7 @@ public interface ILoginView extends IView {
     /**
      * 登录成功后的回调
      */
-    void onSuccessInLogin(LoginResponseEntity data);
+    void onSuccessInLogin();
 
     /**
      * 登录失败后的回调

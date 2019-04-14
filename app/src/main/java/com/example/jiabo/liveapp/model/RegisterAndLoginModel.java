@@ -1,16 +1,10 @@
 package com.example.jiabo.liveapp.model;
 
 import com.example.jiabo.liveapp.callBack.HttpRequestCallback;
-import com.example.jiabo.liveapp.model.entity.LoginResponseEntity;
-import com.example.jiabo.liveapp.model.entity.RequestBackInfo;
-import com.example.jiabo.liveapp.network.BaseObserver;
+import com.example.jiabo.liveapp.network.entity.LoginResponse;
+import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
+import com.example.jiabo.liveapp.base.BaseObserver;
 import com.example.jiabo.liveapp.network.RetrofitFactory;
-
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by jiabo
@@ -46,11 +40,11 @@ public class RegisterAndLoginModel {
      * 账号登录
      */
     public void login(String username, String password,
-                      final HttpRequestCallback<RequestBackInfo<LoginResponseEntity>> httpRequestCallback) {
+                      final HttpRequestCallback<RequestBackInfo<LoginResponse>> httpRequestCallback) {
         RetrofitFactory.login(username, password)
-                .subscribe(new BaseObserver<RequestBackInfo<LoginResponseEntity>>() {
+                .subscribe(new BaseObserver<RequestBackInfo<LoginResponse>>() {
                     @Override
-                    public void onHttpSuccess(RequestBackInfo<LoginResponseEntity> response) {
+                    public void onHttpSuccess(RequestBackInfo<LoginResponse> response) {
                         httpRequestCallback.onSuccess(response);
                     }
 

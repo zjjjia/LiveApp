@@ -3,8 +3,8 @@
     package="com.example.jiabo.liveapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".LiveApplication"
@@ -32,7 +32,7 @@
         <activity
             android:name=".view.CreateLiveActivity"
             android:launchMode="singleTask" />
-
+        <activity android:name=".view.LiveActivity"></activity>
     </application>
 
 </manifest>

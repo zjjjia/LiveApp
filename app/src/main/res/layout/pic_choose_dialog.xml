@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_background_gray">
+
+    <Button
+        android:id="@+id/choose_pic_camera"
+        android:text="@string/take_photo"
+        style="@style/bottom_dialog_button"/>
+
+    <Button
+        android:id="@+id/choose_pic_album"
+        app:layout_constraintTop_toBottomOf="@id/choose_pic_camera"
+        android:layout_marginTop="1dp"
+        android:text="@string/choose_in_album"
+        style="@style/bottom_dialog_button"/>
+
+    <Button
+        android:id="@+id/cancel_btn"
+        app:layout_constraintTop_toBottomOf="@id/choose_pic_album"
+        android:layout_marginTop="1dp"
+        style="@style/bottom_dialog_button"
+        android:text="@string/cancel"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,9 +1,12 @@
 package com.example.jiabo.liveapp.network;
 
-import com.example.jiabo.liveapp.constant.ConfigCode;
-import com.example.jiabo.liveapp.model.entity.LoginResponseEntity;
-import com.example.jiabo.liveapp.model.entity.RequestBackInfo;
-import com.example.jiabo.liveapp.model.entity.UserInfoEntity;
+import com.example.jiabo.liveapp.Utils.LogUtil;
+import com.example.jiabo.liveapp.constant.Constants;
+import com.example.jiabo.liveapp.network.entity.CreateRoomResponse;
+import com.example.jiabo.liveapp.network.entity.responseLiveRoomInfo;
+import com.example.jiabo.liveapp.network.entity.LoginResponse;
+import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
+import com.example.jiabo.liveapp.network.entity.ReportRoomInfo;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,17 +60,56 @@ public class RetrofitFactory {
         return mApiService.register("", "account", "regist", requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-
     }
 
     /**
      * 账号登录
      */
-    public static Observable<RequestBackInfo<LoginResponseEntity>> login(String username, String password) {
-        String jsonData = "{ \"id\": \"" + username + "\", \"pwd\": \"" + password + "\", \"appid\": "
-                + ConfigCode.SDK_APP_ID + "}";
+    public static Observable<RequestBackInfo<LoginResponse>> login(String username, String password) {
+        String jsonData = "{ \"id\":\"" + username + "\", \"pwd\":\"" + password + "\", \"appid\": "
+                + Constants.SDK_APP_ID + "}";
+        LogUtil.d(TAG, "login: " + jsonData);
         RequestBody requestBody = RequestBody.create(MediaType.get("application/json; charset=utf-8"), jsonData);
         return mApiService.login("", "account", "login", requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 创建房间
+     */
+    public static Observable<RequestBackInfo<CreateRoomResponse>> createRoom(String token) {
+        String type = "live";
+        String jsonData = "{\"token\": \"" + token + "\", \"type\": " + "\"" + type + "\"}";
+        RequestBody requestBody = RequestBody.create(MediaType.get("application/json; charset=utf-8"), jsonData);
+        return mApiService.createRoom("", "live", "create", requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 上报房间信息
+     */
+    public static Observable<RequestBackInfo> reportRoomInfo(String token, ReportRoomInfo reportRoomInfo) {
+        String jsonData = "{\"token\": " + "\"" + token + "\", \"room\": {" + reportRoomInfo.toJsonString() + "}}";
+        RequestBody requestBody = RequestBody.create(MediaType.get("application/json; charset=utf-8"), jsonData);
+        return mApiService.reportRoomInfo("", "live", "reportroom", requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 拉取直播房间列表
+     *
+     * @param index 起始房间位置(从0开始)
+     * @param size  列表长度
+     */
+    public static Observable<RequestBackInfo<responseLiveRoomInfo>> loadLiveRoomInfo(String token, Integer index, Integer size) {
+        String type = "live";
+        String jsonData = "{\"token\": \"" + token + "\", \"type\": \"" + type + "\", \"index\": " + index + ", " +
+                "\"size\": " + size + ", \"appid\": " + Constants.SDK_APP_ID + "}";
+        RequestBody requestBody = RequestBody.create(MediaType.get("application/json; charset=utf-8"), jsonData);
+        return mApiService.loadLiveRoomInfo("", "lvie", "roomlist", requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -77,7 +119,7 @@ public class RetrofitFactory {
      */
     private static Interceptor getHttpLoggingInterceptor() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return loggingInterceptor;
     }
 }

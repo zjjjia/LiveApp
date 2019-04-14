@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.model.entity;
+package com.example.jiabo.liveapp.network.entity;
 
 /**
  * Created by jiabo

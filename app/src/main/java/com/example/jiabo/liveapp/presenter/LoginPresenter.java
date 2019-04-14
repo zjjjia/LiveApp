@@ -1,12 +1,17 @@
 package com.example.jiabo.liveapp.presenter;
 
+import android.content.Context;
+
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.callBack.HttpRequestCallback;
+import com.example.jiabo.liveapp.model.entity.MyselfInfo;
 import com.example.jiabo.liveapp.model.RegisterAndLoginModel;
-import com.example.jiabo.liveapp.model.entity.LoginResponseEntity;
-import com.example.jiabo.liveapp.model.entity.RequestBackInfo;
+import com.example.jiabo.liveapp.network.entity.LoginResponse;
+import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
 import com.example.jiabo.liveapp.presenter.iview.ILoginView;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 
 /**
  * @author jiabo
@@ -20,25 +25,30 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
     private static final String TAG = "LoginPresenter";
     RegisterAndLoginModel model;
 
-    public LoginPresenter(ILoginView iView) {
-        super(iView);
+    public LoginPresenter(Context context, ILoginView iView) {
+        super(context, iView);
         model = new RegisterAndLoginModel();
     }
 
     /**
-     * 进行登录验证的操作
+     * 本地服务器进行登录验证的操作
+     *
+     * @param username
+     * @param password
      */
     public void login(final String username, String password) {
-        model.login(username, password, new HttpRequestCallback<RequestBackInfo<LoginResponseEntity>>() {
+        model.login(username, password, new HttpRequestCallback<RequestBackInfo<LoginResponse>>() {
             @Override
-            public void onSuccess(RequestBackInfo<LoginResponseEntity> response) {
+            public void onSuccess(RequestBackInfo<LoginResponse> response) {
                 if (mIView == null) {
                     LogUtil.e(TAG, "onSuccess: iIView = null!");
                     return;
                 }
                 if (response.getErrorCode() == 0) {
                     LogUtil.d(TAG, "onSuccess: " + response.getData().toString());
-                    mIView.onSuccessInLogin(response.getData());
+                    ofterLoginSuccess(username, response.getData().getUserSig(), response.getData().getToken());
+                    //mIView.onSuccessInLogin();
+                    loginInTencent(username, response.getData().getUserSig());
                 } else {
                     LogUtil.d(TAG, "onError: " + response.toString());
                     mIView.onFailureInLogin(response.getErrorCode(), response.getErrorInfo());
@@ -55,5 +65,52 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
                 mIView.onFailureInLogin(errorCode, errorInfo);
             }
         });
+    }
+
+    /**
+     * 登录腾讯云服务器
+     *
+     * @param username
+     * @param sig
+     */
+    private void loginInTencent(String username, String sig) {
+        ILiveLoginManager.getInstance().iLiveLogin(username, sig, new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                MyselfInfo.getInstance().writeToCache(mContext);
+                mIView.onSuccessInLogin();
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                LogUtil.e(TAG, "onError: module: " + module + ", errorCode: " + errCode
+                        + ", errMsg: " + errMsg);
+                mIView.onFailureInLogin(errCode, errMsg);
+            }
+        });
+    }
+
+    /**
+     * 退出腾讯云服务器登录
+     */
+    private void logoutInTencent() {
+        if (ILiveLoginManager.getInstance().isLogin()) {
+            ILiveLoginManager.getInstance().iLiveLogout(new ILiveCallBack() {
+                @Override
+                public void onSuccess(Object data) {
+                }
+
+                @Override
+                public void onError(String module, int errCode, String errMsg) {
+
+                }
+            });
+        }
+    }
+
+    private void ofterLoginSuccess(String username, String userSign, String token) {
+        MyselfInfo.getInstance().setId(username);
+        MyselfInfo.getInstance().setUserSign(userSign);
+        MyselfInfo.getInstance().setToken(token);
     }
 }

@@ -1,5 +1,8 @@
 package com.example.jiabo.liveapp.presenter.iview;
 
+import android.content.Intent;
+import android.net.Uri;
+
 import com.example.jiabo.liveapp.base.IView;
 
 /**
@@ -11,6 +14,12 @@ import com.example.jiabo.liveapp.base.IView;
 
 public interface ICreateLiveView extends IView {
 
-    void loadLiveCoverPath(String coverPath);
+    void loadCover(Uri fileUri, int type);
+
+    void startPhotoZoom(Intent intent);
+
+    void startLive();
+
+    void onError(int errorCode, String errorInfo);
 
 }
