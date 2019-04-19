@@ -15,6 +15,8 @@ import com.example.jiabo.liveapp.base.BaseActivity;
 import com.example.jiabo.liveapp.constant.OtherCode;
 import com.example.jiabo.liveapp.presenter.iview.ILoginView;
 import com.example.jiabo.liveapp.presenter.LoginPresenter;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 
 import java.util.regex.Pattern;
 
@@ -105,6 +107,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             LogUtil.d(TAG, "onActivityResult: " + username);
             mUserNameEdit.setText(username);
         }
+
     }
 
     /*---------------------这里是接口的实现---------------------------*/

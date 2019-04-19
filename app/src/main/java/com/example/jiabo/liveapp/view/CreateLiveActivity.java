@@ -30,6 +30,7 @@ import com.example.jiabo.liveapp.model.entity.CurrentLiveInfo;
 import com.example.jiabo.liveapp.presenter.CreateLivePresenter;
 import com.example.jiabo.liveapp.presenter.iview.ICreateLiveView;
 import com.example.jiabo.liveapp.view.customView.PickerView;
+import com.tencent.ilivesdk.core.ILiveRoomManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,12 +47,12 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     private ImageView mLiveCoverImg;
     private ImageView mLiveCoverIco;
     private TextView mLiveCoverTextView;
-    private TextView mSelectedRoleShow;
+    private TextView mSelectedRole;
     private EditText mLiveTitleEdit;
     private CreateLivePresenter mCreateLivePresenter;
     private List<String> mResolvingList = new ArrayList<>();
 
-    private String mRoleShow;
+    private String mRole = Constants.FHD;
     private Dialog mPicChooseDialog;
     private Uri mFileUri;
 
@@ -70,11 +71,11 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
         mLiveTitleEdit = findViewById(R.id.set_live_title);
         mLiveCoverTextView = findViewById(R.id.set_cover_text);
         mLiveCoverIco = findViewById(R.id.set_cover_ico);
-        mSelectedRoleShow = findViewById(R.id.selected_role);
+        mSelectedRole = findViewById(R.id.selected_role);
         Button mLiveStartBtn = findViewById(R.id.live_start_btn);
         ImageButton mSetRoleShowBtn = findViewById(R.id.set_live_role);
 
-        mSelectedRoleShow.setText(CurrentLiveInfo.getCurRole());
+        mSelectedRole.setText(CurrentLiveInfo.getCurRole());
         mSetLiveCoverBtn.setOnClickListener(this);
         mSetRoleShowBtn.setOnClickListener(this);
         mLiveStartBtn.setOnClickListener(this);
@@ -102,8 +103,9 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
         mSelectInPickerView.setOnSelectListener(new PickerView.OnSelectListener() {
             @Override
             public void onSelect(View view, String selected) {
-                mRoleShow = selected;
-                mSelectedRoleShow.setText(getRoleShow(selected));
+                LogUtil.d(TAG, "onSelect: selected role: " + selected);
+                mRole = selected;
+                mSelectedRole.setText(selected);
             }
         });
     }
@@ -138,31 +140,18 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
         cancelBtn.setOnClickListener(this);
     }
 
-    private String getRoleShow(String role) {
-        if (role.equals(Constants.FHD)) {
-            return getString(R.string.str_dt_hd);
-        } else if (role.equals(Constants.FHD2)) {
-            return getString(R.string.str_dt_hd2);
-        } else if (role.equals(Constants.FSD2)) {
-            return getString(R.string.str_dt_sd2);
-        } else if (role.equals(Constants.FLD)) {
-            return getString(R.string.str_dt_ld);
-        } else if (role.equals(Constants.FLD2)) {
-            return getString(R.string.str_dt_ld2);
-        } else {
-            return getString(R.string.str_dt_sd);
-        }
-    }
-
     private void initPickViewDataList() {
-        mResolvingList.add("(1280*720,20fps)");
-        mResolvingList.add("(960x540,20fps)");
-        mResolvingList.add("(640x480,20fps)");
-        mResolvingList.add("(640x368,20fps)");
-        mResolvingList.add("(480x360,20fps)");
-        mResolvingList.add("(320x240,15fps)");
+        mResolvingList.add("1280*720");
+        mResolvingList.add("960x540");
+        mResolvingList.add("640x480");
+        mResolvingList.add("640x368");
+        mResolvingList.add("480x360");
+        mResolvingList.add("320x240");
     }
 
+    /**
+     * 选择封面图片之后的处理
+     */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -190,10 +179,16 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        ILiveRoomManager.getInstance().onResume();
+    }
 
     @Override
     public void onPause() {
         super.onPause();
+        ILiveRoomManager.getInstance().onPause();
     }
 
     @Override
@@ -237,7 +232,7 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(this, R.string.must_set_title, Toast.LENGTH_LONG).show();
                     return;
                 }
-                mCreateLivePresenter.createRoom(mLiveTitle, mFileUri, mRoleShow);
+                mCreateLivePresenter.createRoom(mLiveTitle, mFileUri, mRole);
                 break;
         }
     }
@@ -271,6 +266,7 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onError(int errorCode, String errorInfo) {
+        LogUtil.e(TAG, "onHttpError: errorCode: " + errorCode + "; errorInfo: " + errorInfo);
         Toast.makeText(this, errorCode + ": " + errorInfo, Toast.LENGTH_SHORT).show();
     }
 }
