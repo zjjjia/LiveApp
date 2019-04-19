@@ -32,10 +32,10 @@ public class Constants {
     /**
      * 分辨率
      */
-    public static final String FLD = "(1280*720,20fps)";    // 320*240
-    public static final String FLD2 = "(960x540,20fps)";   // 480*360
-    public static final String FSD = "(640x480,20fps)";     // 640*368
-    public static final String FSD2 = "(640x368,20fps)";   // 640*480
-    public static final String FHD = "(480x360,20fps)";     // 960*540
-    public static final String FHD2 = "(320x240,15fps)";   // 1280*720
+    public static final String FLD = "1280*720";    // 320*240
+    public static final String FLD2 = "960x540";   // 480*360
+    public static final String FSD = "640x480";     // 640*368
+    public static final String FSD2 = "640x368";   // 640*480
+    public static final String FHD = "480x360";     // 960*540
+    public static final String FHD2 = "320x240";   // 1280*720
 }

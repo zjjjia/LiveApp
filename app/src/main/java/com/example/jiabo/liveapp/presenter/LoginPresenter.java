@@ -5,13 +5,17 @@ import android.content.Context;
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.callBack.HttpRequestCallback;
+import com.example.jiabo.liveapp.model.entity.CurrentLiveInfo;
 import com.example.jiabo.liveapp.model.entity.MyselfInfo;
 import com.example.jiabo.liveapp.model.RegisterAndLoginModel;
 import com.example.jiabo.liveapp.network.entity.LoginResponse;
 import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
 import com.example.jiabo.liveapp.presenter.iview.ILoginView;
+import com.tencent.av.sdk.AVRoomMulti;
 import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.core.ILiveLoginManager;
+import com.tencent.ilivesdk.core.ILiveRoomOption;
 
 /**
  * @author jiabo

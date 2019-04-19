@@ -12,6 +12,7 @@ import com.example.jiabo.liveapp.Utils.UIUtils;
 import com.example.jiabo.liveapp.base.BaseObserver;
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.constant.Constants;
+import com.example.jiabo.liveapp.constant.ErrorCode;
 import com.example.jiabo.liveapp.model.entity.CurrentLiveInfo;
 import com.example.jiabo.liveapp.model.entity.MyselfInfo;
 import com.example.jiabo.liveapp.network.RetrofitFactory;
@@ -19,6 +20,12 @@ import com.example.jiabo.liveapp.network.entity.CreateRoomResponse;
 import com.example.jiabo.liveapp.network.entity.ReportRoomInfo;
 import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
 import com.example.jiabo.liveapp.presenter.iview.ICreateLiveView;
+import com.tencent.av.sdk.AVRoomMulti;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.ILiveConstants;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
+import com.tencent.ilivesdk.core.ILiveRoomManager;
+import com.tencent.ilivesdk.core.ILiveRoomOption;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +43,7 @@ import rx.schedulers.Schedulers;
  * Modify by
  */
 
-public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
+public class CreateLivePresenter extends BasePresenter<ICreateLiveView> implements ILiveRoomOption.onRoomDisconnectListener {
 
     private static final String TAG = "CreateLivePresenter";
     private static final int CHOOSE_COVER_BY_CAMERA = 100;
@@ -50,7 +57,6 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
         CurrentLiveInfo.setTitle(liveTitle);
         CurrentLiveInfo.setCoverUrl(coverUri.getPath());
         CurrentLiveInfo.setCurRole(roleShow);
-        CurrentLiveInfo.setHostID(MyselfInfo.getInstance().getId());
         String token = MyselfInfo.getInstance().getToken();
         RetrofitFactory.createRoom(token)
                 .subscribe(new BaseObserver<RequestBackInfo<CreateRoomResponse>>() {
@@ -58,16 +64,12 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
                     public void onHttpSuccess(RequestBackInfo<CreateRoomResponse> response) {
                         LogUtil.d(TAG, "onHttpSuccess: " + response.toString());
                         CurrentLiveInfo.setRoomNum(response.getData().getRoomnum());
-                        reportRoomInfo(response.getData().getRoomnum(), response.getData().getGroupid());
-                        if (mIView == null) {
-                            LogUtil.e(TAG, "onHttpSuccess: mIView = null!");
-                            return;
-                        }
+                        createRoomInTencent();
+                        //reportRoomInfo(response.getData().getRoomnum(), response.getData().getGroupid());
                     }
 
                     @Override
                     public void onHttpError(int errorCode, String errorInfo) {
-                        LogUtil.e(TAG, "onHttpError: errorCode: " + errorCode + "; errorInfo: " + errorInfo);
                         if (mIView == null) {
                             LogUtil.e(TAG, "onHttpError: mIView = null");
                             return;
@@ -77,6 +79,35 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
                 });
     }
 
+    private void createRoomInTencent(){
+        ILiveRoomOption hostOption = new ILiveRoomOption(ILiveLoginManager.getInstance().getMyUserId())
+                .autoCamera(true)
+                .authBits(AVRoomMulti.AUTH_BITS_DEFAULT)
+                .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
+                .controlRole(CurrentLiveInfo.getCurRole())
+                .autoFocus(true);
+
+        ILiveRoomManager.getInstance().createRoom(MyselfInfo.getInstance().getMyRoomNum(), hostOption,
+                new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                LogUtil.e(TAG, "onSuccess: crate room success in tencent!");
+                mIView.startLive();
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                LogUtil.e(TAG, "onError: module==>" + module + "----errorCode==>" + errCode
+                        + "----errorMessage==>" + errMsg);
+                if(mIView == null){
+                    LogUtil.e(TAG, "onError: mIView = null");
+                    return;
+                }
+                mIView.onError(errCode, errMsg);
+            }
+        });
+
+    }
 
     /**
      * 选择图片作为封面
@@ -189,7 +220,7 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
                         }
                         if (response.getErrorCode() == 0) {
                             LogUtil.d(TAG, "onHttpSuccess: " + response.toString());
-                            mIView.startLive();
+                           createRoomInTencent();
                         } else {
                             LogUtil.e(TAG, "onError: " + response.toString());
                             mIView.onError(response.getErrorCode(), response.getErrorInfo());
@@ -205,5 +236,10 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
                         mIView.onError(errorCode, errorInfo);
                     }
                 });
+    }
+
+    @Override
+    public void onRoomDisconnect(int errCode, String errMsg) {
+
     }
 }
