@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jiabo.liveapp">
+    package="com.example.iLive.liveapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".LiveApplication"
+        android:name="com.example.iLive.liveapp.LiveApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".view.LoginActivity"
+            android:name="com.example.iLive.liveapp.view.LoginActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,15 +23,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.RegisterActivity"
+            android:name="com.example.iLive.liveapp.view.RegisterActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".view.HomeActivity"
+            android:name="com.example.iLive.liveapp.view.HomeActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".view.CreateLiveActivity"
+            android:name="com.example.iLive.liveapp.view.CreateLiveActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".view.LiveActivity"></activity>
+        <activity android:name="com.example.iLive.liveapp.view.LiveActivity"></activity>
     </application>
 
 </manifest>
