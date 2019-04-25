@@ -1,4 +1,6 @@
-package com.example.iLive.liveapp.model.entity;
+package com.example.jiabo.liveapp.model.entity;
+
+import com.example.iLive.liveapp.model.entity.RecordInfo;
 
 /**
  * Created by jiabo
@@ -15,7 +17,7 @@ public class CurrentLiveInfo {
     private static double long1;
     private static String address = "";
     private static String coverUrl = "";
-    private static String curRole = "640*480";
+    private static int curRole;
 
     private static RecordInfo mRecordInfo;
 
@@ -131,11 +133,11 @@ public class CurrentLiveInfo {
         CurrentLiveInfo.coverUrl = coverUrl;
     }
 
-    public static String getCurRole() {
+    public static int getCurRole() {
         return curRole;
     }
 
-    public static void setCurRole(String curRole) {
+    public static void setCurRole(int curRole) {
         CurrentLiveInfo.curRole = curRole;
     }
 }

@@ -1,4 +1,5 @@
-package com.example.iLive.liveapp.model;
+package com.example.jiabo.liveapp.model;
+
 
 /**
  * Created by jiabo

@@ -2,6 +2,8 @@ package com.example.iLive.liveapp.base;
 
 import android.content.Context;
 
+import com.tencent.trtc.TRTCCloudListener;
+
 /**
  * @author jiabo
  * Date: 2019/3/15 & 9:55
@@ -9,7 +11,7 @@ import android.content.Context;
  * description :
  * * Modify by
  */
-public abstract class BasePresenter<T extends IView> {
+public abstract class BasePresenter<T extends IView> extends TRTCCloudListener{
     protected T mIView;
     public Context mContext;
 

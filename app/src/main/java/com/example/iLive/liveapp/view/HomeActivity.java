@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import com.example.iLive.liveapp.R;
 import com.example.iLive.liveapp.adapter.NavigationPagerAdapter;
 import com.example.iLive.liveapp.base.BaseActivity;
-import com.example.iLive.liveapp.view.Framgent.PersonalCenterFragment;
 import com.example.iLive.liveapp.view.Framgent.LiveListFragment;
+import com.example.iLive.liveapp.view.Framgent.PersonalCenterFragment;
 import com.example.iLive.liveapp.view.customView.CustomNavigationView;
 import com.example.iLive.liveapp.view.customView.NoScrollViewPager;
 
@@ -32,7 +32,12 @@ public class HomeActivity extends BaseActivity implements CustomNavigationView.N
         initView();
     }
 
-    public void initView() {
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
+
+    private void initView() {
         mCustomNavigationView = findViewById(R.id.bottom_navigation);
         mMainViewPager = findViewById(R.id.main_viewpager);
         mMainViewPager.setNoScroll(true);

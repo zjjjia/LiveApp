@@ -60,7 +60,7 @@ public class PickerView extends View {
      * 选择结果回调接口
      */
     public interface OnSelectListener {
-        void onSelect(View view, String selected);
+        void onSelect(View view, int position);
     }
 
     private static class ScrollTimerTask extends TimerTask {
@@ -260,7 +260,7 @@ public class PickerView extends View {
                 cancelTimerTask();
 
                 if (mOnSelectListener != null && mSelectedIndex < mDataList.size()) {
-                    mOnSelectListener.onSelect(this, mDataList.get(mSelectedIndex));
+                    mOnSelectListener.onSelect(this, mSelectedIndex);
                 }
             }
         } else if (mScrollDistance > 0) {

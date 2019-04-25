@@ -13,8 +13,8 @@ import com.example.iLive.liveapp.R;
 import com.example.iLive.liveapp.Utils.LogUtil;
 import com.example.iLive.liveapp.base.BaseActivity;
 import com.example.iLive.liveapp.constant.OtherCode;
-import com.example.iLive.liveapp.presenter.iview.ILoginView;
 import com.example.iLive.liveapp.presenter.LoginPresenter;
+import com.example.iLive.liveapp.presenter.iview.ILoginView;
 
 import java.util.regex.Pattern;
 
@@ -118,7 +118,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.login_in_btn:
                 //登录的操作
-                login();
+                //login();
+                mLoginPresenter.login("test2", "jiabo123");
                 break;
             case R.id.step_into_register:
                 //没有账号，去注册
