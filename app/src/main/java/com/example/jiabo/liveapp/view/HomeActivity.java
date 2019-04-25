@@ -3,13 +3,12 @@ package com.example.jiabo.liveapp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.adapter.NavigationPagerAdapter;
 import com.example.jiabo.liveapp.base.BaseActivity;
-import com.example.jiabo.liveapp.view.Framgent.PersonalCenterFragment;
 import com.example.jiabo.liveapp.view.Framgent.LiveListFragment;
+import com.example.jiabo.liveapp.view.Framgent.PersonalCenterFragment;
 import com.example.jiabo.liveapp.view.customView.CustomNavigationView;
 import com.example.jiabo.liveapp.view.customView.NoScrollViewPager;
 
@@ -33,7 +32,12 @@ public class HomeActivity extends BaseActivity implements CustomNavigationView.N
         initView();
     }
 
-    public void initView() {
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
+
+    private void initView() {
         mCustomNavigationView = findViewById(R.id.bottom_navigation);
         mMainViewPager = findViewById(R.id.main_viewpager);
         mMainViewPager.setNoScroll(true);

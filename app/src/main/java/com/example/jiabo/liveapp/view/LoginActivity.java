@@ -13,10 +13,8 @@ import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.base.BaseActivity;
 import com.example.jiabo.liveapp.constant.OtherCode;
-import com.example.jiabo.liveapp.presenter.iview.ILoginView;
 import com.example.jiabo.liveapp.presenter.LoginPresenter;
-import com.tencent.ilivesdk.ILiveCallBack;
-import com.tencent.ilivesdk.core.ILiveLoginManager;
+import com.example.jiabo.liveapp.presenter.iview.ILoginView;
 
 import java.util.regex.Pattern;
 
@@ -120,7 +118,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.login_in_btn:
                 //登录的操作
-                login();
+                //login();
+                mLoginPresenter.login("test2", "jiabo123");
                 break;
             case R.id.step_into_register:
                 //没有账号，去注册

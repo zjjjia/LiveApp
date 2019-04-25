@@ -4,15 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.Utils.UIUtils;
 import com.example.jiabo.liveapp.base.BaseObserver;
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.constant.Constants;
-import com.example.jiabo.liveapp.constant.ErrorCode;
+import com.example.jiabo.liveapp.constant.TRTCSettingBirateTable;
 import com.example.jiabo.liveapp.model.entity.CurrentLiveInfo;
 import com.example.jiabo.liveapp.model.entity.MyselfInfo;
 import com.example.jiabo.liveapp.network.RetrofitFactory;
@@ -20,15 +22,16 @@ import com.example.jiabo.liveapp.network.entity.CreateRoomResponse;
 import com.example.jiabo.liveapp.network.entity.ReportRoomInfo;
 import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
 import com.example.jiabo.liveapp.presenter.iview.ICreateLiveView;
-import com.tencent.av.sdk.AVRoomMulti;
-import com.tencent.ilivesdk.ILiveCallBack;
-import com.tencent.ilivesdk.ILiveConstants;
-import com.tencent.ilivesdk.core.ILiveLoginManager;
-import com.tencent.ilivesdk.core.ILiveRoomManager;
-import com.tencent.ilivesdk.core.ILiveRoomOption;
+import com.example.jiabo.liveapp.view.CreateLiveActivity;
+import com.tencent.liteav.TXLiteAVCode;
+import com.tencent.trtc.TRTCCloud;
+import com.tencent.trtc.TRTCCloudDef;
+import com.tencent.trtc.TRTCCloudListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import rx.Observable;
 import rx.Observer;
@@ -43,20 +46,23 @@ import rx.schedulers.Schedulers;
  * Modify by
  */
 
-public class CreateLivePresenter extends BasePresenter<ICreateLiveView> implements ILiveRoomOption.onRoomDisconnectListener {
+public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
 
     private static final String TAG = "CreateLivePresenter";
     private static final int CHOOSE_COVER_BY_CAMERA = 100;
     private static final int CHOOSE_COVER_BY_ALBUM = 200;
+    private ArrayList<TRTCSettingBirateTable> videoParamList = new ArrayList<>();
 
     public CreateLivePresenter(Context context, ICreateLiveView iView) {
         super(context, iView);
+
+        iniVideParamData();
     }
 
-    public void createRoom(String liveTitle, Uri coverUri, String roleShow) {
+    public void createRoom(String liveTitle, Uri coverUri, int roleIndex) {
         CurrentLiveInfo.setTitle(liveTitle);
         CurrentLiveInfo.setCoverUrl(coverUri.getPath());
-        CurrentLiveInfo.setCurRole(roleShow);
+        CurrentLiveInfo.setCurRole(videoParamList.get(roleIndex).getmResolution());
         String token = MyselfInfo.getInstance().getToken();
         RetrofitFactory.createRoom(token)
                 .subscribe(new BaseObserver<RequestBackInfo<CreateRoomResponse>>() {
@@ -64,8 +70,7 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> implemen
                     public void onHttpSuccess(RequestBackInfo<CreateRoomResponse> response) {
                         LogUtil.d(TAG, "onHttpSuccess: " + response.toString());
                         CurrentLiveInfo.setRoomNum(response.getData().getRoomnum());
-                        createRoomInTencent();
-                        //reportRoomInfo(response.getData().getRoomnum(), response.getData().getGroupid());
+                        reportRoomInfo(response.getData().getRoomnum(), response.getData().getGroupid());
                     }
 
                     @Override
@@ -77,36 +82,6 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> implemen
                         mIView.onError(errorCode, errorInfo);
                     }
                 });
-    }
-
-    private void createRoomInTencent(){
-        ILiveRoomOption hostOption = new ILiveRoomOption(ILiveLoginManager.getInstance().getMyUserId())
-                .autoCamera(true)
-                .authBits(AVRoomMulti.AUTH_BITS_DEFAULT)
-                .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
-                .controlRole(CurrentLiveInfo.getCurRole())
-                .autoFocus(true);
-
-        ILiveRoomManager.getInstance().createRoom(MyselfInfo.getInstance().getMyRoomNum(), hostOption,
-                new ILiveCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                LogUtil.e(TAG, "onSuccess: crate room success in tencent!");
-                mIView.startLive();
-            }
-
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                LogUtil.e(TAG, "onError: module==>" + module + "----errorCode==>" + errCode
-                        + "----errorMessage==>" + errMsg);
-                if(mIView == null){
-                    LogUtil.e(TAG, "onError: mIView = null");
-                    return;
-                }
-                mIView.onError(errCode, errMsg);
-            }
-        });
-
     }
 
     /**
@@ -200,15 +175,7 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> implemen
      * 上报创建房间结果
      */
     private void reportRoomInfo(int roomnum, String groupid) {
-        ReportRoomInfo reportRoomInfo = new ReportRoomInfo();
-        reportRoomInfo.setTitle(CurrentLiveInfo.getTitle());
-        reportRoomInfo.setRoomnum(roomnum);
-        reportRoomInfo.setType("live");
-        reportRoomInfo.setGroupid(groupid);
-        reportRoomInfo.setCover(CurrentLiveInfo.getCoverUrl());
-        reportRoomInfo.setAppid(Constants.SDK_APP_ID);
-        reportRoomInfo.setDevice(1);
-        reportRoomInfo.setVideoType(0);
+        ReportRoomInfo reportRoomInfo = setReportRoomInfo(roomnum, groupid);
 
         RetrofitFactory.reportRoomInfo(MyselfInfo.getInstance().getToken(), reportRoomInfo)
                 .subscribe(new BaseObserver<RequestBackInfo>() {
@@ -220,7 +187,7 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> implemen
                         }
                         if (response.getErrorCode() == 0) {
                             LogUtil.d(TAG, "onHttpSuccess: " + response.toString());
-                           createRoomInTencent();
+                            mIView.startLive();
                         } else {
                             LogUtil.e(TAG, "onError: " + response.toString());
                             mIView.onError(response.getErrorCode(), response.getErrorInfo());
@@ -238,8 +205,32 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> implemen
                 });
     }
 
-    @Override
-    public void onRoomDisconnect(int errCode, String errMsg) {
+    /**
+     * 上报创建的房间信息到自己的服务器
+     *
+     * @param roomnum 房间号
+     * @param groupid 群组
+     */
+    private ReportRoomInfo setReportRoomInfo(int roomnum, String groupid) {
+        ReportRoomInfo reportRoomInfo = new ReportRoomInfo();
+        reportRoomInfo.setTitle(CurrentLiveInfo.getTitle());
+        reportRoomInfo.setRoomnum(roomnum);
+        reportRoomInfo.setType("live");
+        reportRoomInfo.setGroupid(groupid);
+        reportRoomInfo.setCover(CurrentLiveInfo.getCoverUrl());
+        reportRoomInfo.setAppid(Constants.SDK_APP_ID);
+        reportRoomInfo.setDevice(1);
+        reportRoomInfo.setVideoType(0);
 
+        return reportRoomInfo;
+    }
+
+    private void iniVideParamData(){
+        videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_1280_720));
+        videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_960_540));
+        videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_640_480));
+        videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_640_360));
+        videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_480_480));
+        videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_320_240));
     }
 }
