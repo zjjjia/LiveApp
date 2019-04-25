@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background_gray"
-    tools:context="com.example.jiabo.liveapp.view.CreateLiveActivity">
+    tools:context="com.example.iLive.liveapp.view.CreateLiveActivity">
 
     <ImageView
         android:id="@+id/set_live_cover"

@@ -26,7 +26,7 @@
         android:textColor="@color/color_text_gray"
         android:textSize="15sp"/>-->
 
-    <com.example.jiabo.liveapp.view.customView.PickerView
+    <com.example.iLive.liveapp.view.customView.PickerView
         android:id="@+id/choose_resolving_dialog"
         android:layout_width="match_parent"
         android:layout_height="150dp"
