@@ -5,17 +5,11 @@ import android.content.Context;
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.base.BasePresenter;
 import com.example.jiabo.liveapp.callBack.HttpRequestCallback;
-import com.example.jiabo.liveapp.model.entity.CurrentLiveInfo;
-import com.example.jiabo.liveapp.model.entity.MyselfInfo;
 import com.example.jiabo.liveapp.model.RegisterAndLoginModel;
+import com.example.jiabo.liveapp.model.entity.MyselfInfo;
 import com.example.jiabo.liveapp.network.entity.LoginResponse;
 import com.example.jiabo.liveapp.network.entity.RequestBackInfo;
 import com.example.jiabo.liveapp.presenter.iview.ILoginView;
-import com.tencent.av.sdk.AVRoomMulti;
-import com.tencent.ilivesdk.ILiveCallBack;
-import com.tencent.ilivesdk.ILiveConstants;
-import com.tencent.ilivesdk.core.ILiveLoginManager;
-import com.tencent.ilivesdk.core.ILiveRoomOption;
 
 /**
  * @author jiabo
@@ -51,8 +45,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
                 if (response.getErrorCode() == 0) {
                     LogUtil.d(TAG, "onSuccess: " + response.getData().toString());
                     ofterLoginSuccess(username, response.getData().getUserSig(), response.getData().getToken());
-                    //mIView.onSuccessInLogin();
-                    loginInTencent(username, response.getData().getUserSig());
+                    mIView.onSuccessInLogin();
                 } else {
                     LogUtil.d(TAG, "onError: " + response.toString());
                     mIView.onFailureInLogin(response.getErrorCode(), response.getErrorInfo());
@@ -69,47 +62,6 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
                 mIView.onFailureInLogin(errorCode, errorInfo);
             }
         });
-    }
-
-    /**
-     * 登录腾讯云服务器
-     *
-     * @param username
-     * @param sig
-     */
-    private void loginInTencent(String username, String sig) {
-        ILiveLoginManager.getInstance().iLiveLogin(username, sig, new ILiveCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                MyselfInfo.getInstance().writeToCache(mContext);
-                mIView.onSuccessInLogin();
-            }
-
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                LogUtil.e(TAG, "onError: module: " + module + ", errorCode: " + errCode
-                        + ", errMsg: " + errMsg);
-                mIView.onFailureInLogin(errCode, errMsg);
-            }
-        });
-    }
-
-    /**
-     * 退出腾讯云服务器登录
-     */
-    private void logoutInTencent() {
-        if (ILiveLoginManager.getInstance().isLogin()) {
-            ILiveLoginManager.getInstance().iLiveLogout(new ILiveCallBack() {
-                @Override
-                public void onSuccess(Object data) {
-                }
-
-                @Override
-                public void onError(String module, int errCode, String errMsg) {
-
-                }
-            });
-        }
     }
 
     private void ofterLoginSuccess(String username, String userSign, String token) {

@@ -25,12 +25,10 @@ import com.example.jiabo.liveapp.R;
 import com.example.jiabo.liveapp.Utils.LogUtil;
 import com.example.jiabo.liveapp.Utils.UIUtils;
 import com.example.jiabo.liveapp.base.BaseActivity;
-import com.example.jiabo.liveapp.constant.Constants;
 import com.example.jiabo.liveapp.model.entity.CurrentLiveInfo;
 import com.example.jiabo.liveapp.presenter.CreateLivePresenter;
 import com.example.jiabo.liveapp.presenter.iview.ICreateLiveView;
 import com.example.jiabo.liveapp.view.customView.PickerView;
-import com.tencent.ilivesdk.core.ILiveRoomManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,9 +48,9 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     private TextView mSelectedRole;
     private EditText mLiveTitleEdit;
     private CreateLivePresenter mCreateLivePresenter;
-    private List<String> mResolvingList = new ArrayList<>();
+    private List<String> mRoleList = new ArrayList<>();
 
-    private String mRole = Constants.FHD;
+    private int mRoleIndex;
     private Dialog mPicChooseDialog;
     private Uri mFileUri;
 
@@ -60,9 +58,18 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_live);
-        mCreateLivePresenter = new CreateLivePresenter(this, this);
 
+        initPickViewDataList();
         initView();
+        mCreateLivePresenter = new CreateLivePresenter(this, this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCreateLivePresenter != null) {
+            mCreateLivePresenter.onDestroy();
+        }
     }
 
     private void initView() {
@@ -75,7 +82,7 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
         Button mLiveStartBtn = findViewById(R.id.live_start_btn);
         ImageButton mSetRoleShowBtn = findViewById(R.id.set_live_role);
 
-        mSelectedRole.setText(CurrentLiveInfo.getCurRole());
+        mSelectedRole.setText(mRoleList.get(mRoleList.size() / 2));
         mSetLiveCoverBtn.setOnClickListener(this);
         mSetRoleShowBtn.setOnClickListener(this);
         mLiveStartBtn.setOnClickListener(this);
@@ -98,14 +105,13 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     private void initRoleShowDialog(View view) {
         PickerView mSelectInPickerView = view.findViewById(R.id.choose_resolving_dialog);
 
-        initPickViewDataList();
-        mSelectInPickerView.setDataList(mResolvingList);
+        mSelectInPickerView.setDataList(mRoleList);
         mSelectInPickerView.setOnSelectListener(new PickerView.OnSelectListener() {
             @Override
-            public void onSelect(View view, String selected) {
-                LogUtil.d(TAG, "onSelect: selected role: " + selected);
-                mRole = selected;
-                mSelectedRole.setText(selected);
+            public void onSelect(View view, int position) {
+                LogUtil.d(TAG, "onSelect: selected role: " + position);
+                mRoleIndex = position;
+                mSelectedRole.setText(mRoleList.get(position));
             }
         });
     }
@@ -141,12 +147,12 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initPickViewDataList() {
-        mResolvingList.add("1280*720");
-        mResolvingList.add("960x540");
-        mResolvingList.add("640x480");
-        mResolvingList.add("640x368");
-        mResolvingList.add("480x360");
-        mResolvingList.add("320x240");
+        mRoleList.add("1280*720");
+        mRoleList.add("960x540");
+        mRoleList.add("640x480");
+        mRoleList.add("640x368");
+        mRoleList.add("480x360");
+        mRoleList.add("320x240");
     }
 
     /**
@@ -180,26 +186,18 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        ILiveRoomManager.getInstance().onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ILiveRoomManager.getInstance().onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mCreateLivePresenter.onDestroy();
     }
 
     @Override
@@ -232,7 +230,7 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(this, R.string.must_set_title, Toast.LENGTH_LONG).show();
                     return;
                 }
-                mCreateLivePresenter.createRoom(mLiveTitle, mFileUri, mRole);
+                mCreateLivePresenter.createRoom(mLiveTitle, mFileUri, mRoleIndex);
                 break;
         }
     }

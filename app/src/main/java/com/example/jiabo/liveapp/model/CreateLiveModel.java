@@ -1,6 +1,5 @@
 package com.example.jiabo.liveapp.model;
 
-import com.tencent.ilivesdk.core.ILiveRoomManager;
 
 /**
  * Created by jiabo

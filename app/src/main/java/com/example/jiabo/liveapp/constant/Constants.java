@@ -21,7 +21,7 @@ public class Constants {
     /**
      * 互动直播sdk 的sdk appid
      */
-    public static final int SDK_APP_ID = 1400194845;
+    public static final int SDK_APP_ID = 1400201882;
 
     /**
      * 账号模块的账号集成类型代码
