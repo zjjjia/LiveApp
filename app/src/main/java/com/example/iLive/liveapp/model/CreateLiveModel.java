@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.model;
+package com.example.iLive.liveapp.model;
 
 
 /**

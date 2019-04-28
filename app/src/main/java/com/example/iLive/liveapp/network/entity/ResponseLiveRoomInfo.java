@@ -10,7 +10,7 @@ import java.util.List;
  * Modify by
  */
 
-public class responseLiveRoomInfo {
+public class ResponseLiveRoomInfo {
     private Integer total;
     private List<Room> rooms = new ArrayList<>();
 
@@ -32,7 +32,7 @@ public class responseLiveRoomInfo {
 
     @Override
     public String toString() {
-        return "responseLiveRoomInfo{" +
+        return "ResponseLiveRoomInfo{" +
                 "total=" + total +
                 ", rooms=" + rooms +
                 '}';

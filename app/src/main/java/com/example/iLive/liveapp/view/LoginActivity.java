@@ -128,6 +128,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+
     @Override
     public void onSuccessInLogin() {
         Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();

@@ -1,6 +1,7 @@
 package com.example.iLive.liveapp.base;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.util.List;
  * Modify by
  */
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
     private List<String> permissionList = new ArrayList<>();

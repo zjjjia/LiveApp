@@ -20,7 +20,10 @@ public abstract class BasePresenter<T extends IView> extends TRTCCloudListener{
         this.mIView = iView;
     }
 
+    public void onStop(){};
+
     public void onDestroy(){
         mIView = null;
     }
+
 }

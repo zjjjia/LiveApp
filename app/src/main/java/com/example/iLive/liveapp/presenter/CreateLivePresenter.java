@@ -12,14 +12,14 @@ import com.example.iLive.liveapp.Utils.UIUtils;
 import com.example.iLive.liveapp.base.BaseObserver;
 import com.example.iLive.liveapp.base.BasePresenter;
 import com.example.iLive.liveapp.constant.Constants;
+import com.example.iLive.liveapp.constant.TRTCSettingBirateTable;
+import com.example.iLive.liveapp.model.entity.CurrentLiveInfo;
 import com.example.iLive.liveapp.model.entity.MyselfInfo;
 import com.example.iLive.liveapp.network.RetrofitFactory;
 import com.example.iLive.liveapp.network.entity.CreateRoomResponse;
 import com.example.iLive.liveapp.network.entity.ReportRoomInfo;
 import com.example.iLive.liveapp.network.entity.RequestBackInfo;
 import com.example.iLive.liveapp.presenter.iview.ICreateLiveView;
-import com.example.jiabo.liveapp.constant.TRTCSettingBirateTable;
-import com.example.jiabo.liveapp.model.entity.CurrentLiveInfo;
 import com.tencent.trtc.TRTCCloudDef;
 
 import java.io.File;
@@ -93,7 +93,9 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
                         subscriber.onNext(fileUri);
                         break;
                     case CHOOSE_COVER_BY_ALBUM:
+                        LogUtil.d(TAG, "call: select pic");
                         fileUri = createCoverUri("_select", false);
+                        LogUtil.d(TAG, "call: " + fileUri);
                         subscriber.onNext(fileUri);
                         break;
                 }
@@ -148,18 +150,20 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
         String filename = MyselfInfo.getInstance().getId() + type + ".jpg";
         File outputImage = new File(Environment.getExternalStorageDirectory(), filename);
 
+        if (outputImage.exists()) {
+            outputImage.delete();
+        }
         try {
-            if (outputImage.exists()) {
-                outputImage.delete();
-            }
             outputImage.createNewFile();
         } catch (IOException e) {
-            LogUtil.e(TAG, "createCoverUri: " + e);
             e.printStackTrace();
+            LogUtil.e(TAG, "createCoverUri: " + e);
         }
+
         if (bCrop) {
             return Uri.fromFile(outputImage);
         } else {
+            LogUtil.d(TAG, "createCoverUri: " + UIUtils.getUriFromFile(mContext, outputImage));
             return UIUtils.getUriFromFile(mContext, outputImage);
         }
     }
@@ -218,7 +222,7 @@ public class CreateLivePresenter extends BasePresenter<ICreateLiveView> {
         return reportRoomInfo;
     }
 
-    private void iniVideParamData(){
+    private void iniVideParamData() {
         videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_1280_720));
         videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_960_540));
         videoParamList.add(new TRTCSettingBirateTable(TRTCCloudDef.TRTC_VIDEO_RESOLUTION_640_480));

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import com.example.iLive.liveapp.R;
 import com.example.iLive.liveapp.adapter.NavigationPagerAdapter;
 import com.example.iLive.liveapp.base.BaseActivity;
+import com.example.iLive.liveapp.presenter.iview.ILiveListView;
 import com.example.iLive.liveapp.view.Framgent.LiveListFragment;
 import com.example.iLive.liveapp.view.Framgent.PersonalCenterFragment;
 import com.example.iLive.liveapp.view.customView.CustomNavigationView;
