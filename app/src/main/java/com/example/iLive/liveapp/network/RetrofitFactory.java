@@ -3,7 +3,7 @@ package com.example.iLive.liveapp.network;
 import com.example.iLive.liveapp.Utils.LogUtil;
 import com.example.iLive.liveapp.constant.Constants;
 import com.example.iLive.liveapp.network.entity.CreateRoomResponse;
-import com.example.iLive.liveapp.network.entity.responseLiveRoomInfo;
+import com.example.iLive.liveapp.network.entity.ResponseLiveRoomInfo;
 import com.example.iLive.liveapp.network.entity.LoginResponse;
 import com.example.iLive.liveapp.network.entity.RequestBackInfo;
 import com.example.iLive.liveapp.network.entity.ReportRoomInfo;
@@ -104,12 +104,24 @@ public class RetrofitFactory {
      * @param index 起始房间位置(从0开始)
      * @param size  列表长度
      */
-    public static Observable<RequestBackInfo<responseLiveRoomInfo>> loadLiveRoomInfo(String token, Integer index, Integer size) {
+    public static Observable<RequestBackInfo<ResponseLiveRoomInfo>> loadLiveRoomInfo(String token, Integer index, Integer size) {
         String type = "live";
         String jsonData = "{\"token\": \"" + token + "\", \"type\": \"" + type + "\", \"index\": " + index + ", " +
                 "\"size\": " + size + ", \"appid\": " + Constants.SDK_APP_ID + "}";
         RequestBody requestBody = RequestBody.create(MediaType.get("application/json; charset=utf-8"), jsonData);
-        return mApiService.loadLiveRoomInfo("", "lvie", "roomlist", requestBody)
+        return mApiService.loadLiveRoomInfo("", "live", "roomlist", requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 退出房间
+     */
+    public static Observable<RequestBackInfo> exitRoom(String token, int roomNum) {
+        String type = "live";
+        String jsonData = "{\"token\": \"" + token + "\", \"roomnum\": " + roomNum + ", \"type\": \"" + type + "\"}";
+        RequestBody requestBody = RequestBody.create(MediaType.get("applicaion/json; charset=utf-8"), jsonData);
+        return mApiService.exitRoom("", "live", "exitroom", requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

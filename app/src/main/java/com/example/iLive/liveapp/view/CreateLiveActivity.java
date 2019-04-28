@@ -25,6 +25,7 @@ import com.example.iLive.liveapp.R;
 import com.example.iLive.liveapp.Utils.LogUtil;
 import com.example.iLive.liveapp.Utils.UIUtils;
 import com.example.iLive.liveapp.base.BaseActivity;
+import com.example.iLive.liveapp.constant.Constants;
 import com.example.iLive.liveapp.presenter.CreateLivePresenter;
 import com.example.iLive.liveapp.presenter.iview.ICreateLiveView;
 import com.example.iLive.liveapp.view.customView.PickerView;
@@ -185,21 +186,6 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.set_cover_btn:     //设置封面的按钮
@@ -244,7 +230,8 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
                 startActivityForResult(intentPhoto, CHOOSE_COVER_BY_CAMERA);
                 break;
             case CHOOSE_COVER_BY_ALBUM:
-                Intent intentAlbum = new Intent("android.intent.action.GET_CONTENT");
+                LogUtil.d(TAG, "loadCover: open album");
+                Intent intentAlbum = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intentAlbum.setType("image/*");
                 startActivityForResult(intentAlbum, CHOOSE_COVER_BY_ALBUM);
         }
@@ -258,6 +245,7 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
     @Override
     public void startLive() {
         Intent intent = new Intent(this, LiveActivity.class);
+        intent.putExtra("role", Constants.ROLE_ANCHOR);
         startActivity(intent);
     }
 

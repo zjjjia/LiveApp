@@ -1,4 +1,4 @@
-package com.example.jiabo.liveapp.constant;
+package com.example.iLive.liveapp.constant;
 
 /**
  * Created by jiabo

@@ -21,21 +21,16 @@ public class Constants {
     /**
      * 互动直播sdk 的sdk appid
      */
-    public static final int SDK_APP_ID = 1400201882;
+    public static final int SDK_APP_ID = 1400206453;
 
     /**
      * 账号模块的账号集成类型代码
      */
     public static final int ACCOUNT_TYPE = 36862;
 
-
     /**
-     * 分辨率
-     */
-    public static final String FLD = "1280*720";    // 320*240
-    public static final String FLD2 = "960x540";   // 480*360
-    public static final String FSD = "640x480";     // 640*368
-    public static final String FSD2 = "640x368";   // 640*480
-    public static final String FHD = "480x360";     // 960*540
-    public static final String FHD2 = "320x240";   // 1280*720
+     * 进入房间的角色；0：主播；1：观众
+     * */
+    public static final int ROLE_ANCHOR = 0;
+    public static final int ROLE_AUDIENCE = 1;
 }

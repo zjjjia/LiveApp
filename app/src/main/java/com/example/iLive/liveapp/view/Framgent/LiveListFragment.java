@@ -1,5 +1,6 @@
 package com.example.iLive.liveapp.view.Framgent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +11,12 @@ import android.view.ViewGroup;
 
 import com.example.iLive.liveapp.R;
 import com.example.iLive.liveapp.Utils.LogUtil;
-import com.example.iLive.liveapp.adapter.LiveListAdapter;
-import com.example.iLive.liveapp.model.entity.LiveListEntity;
+import com.example.iLive.liveapp.adapter.LiveRoomListAdapter;
+import com.example.iLive.liveapp.constant.Constants;
+import com.example.iLive.liveapp.network.entity.ResponseLiveRoomInfo;
+import com.example.iLive.liveapp.presenter.LiveListPresenter;
+import com.example.iLive.liveapp.presenter.iview.ILiveListView;
+import com.example.iLive.liveapp.view.LiveActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +28,19 @@ import java.util.List;
  *         description : 直播列表的fragment页面
  *         * Modify by
  */
-public class LiveListFragment extends Fragment {
+public class LiveListFragment extends Fragment implements ILiveListView {
 
     private static final String TAG = "LiveListFragment";
-    private List<LiveListEntity> liveList = new ArrayList<>();
+    private LiveListPresenter mLiveListPresenter;
+    private LiveRoomListAdapter mLiveRoomListAdapter;
+    private List<ResponseLiveRoomInfo.Room> mLiveRoomList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_pager, null);
 
-        LogUtil.d(TAG, "onCreateView: home fragment was created");
-
+        mLiveListPresenter = new LiveListPresenter(getContext(), this);
+        mLiveListPresenter.loadLiveRoomList();
         initRecyclerView(view);
         return view;
     }
@@ -44,22 +51,50 @@ public class LiveListFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         liveListRecycler.setLayoutManager(layoutManager);
         liveListRecycler.setHasFixedSize(true);
-        LiveListAdapter liveListAdapter = new LiveListAdapter();
-        liveListRecycler.setAdapter(liveListAdapter);
+        mLiveRoomListAdapter = new LiveRoomListAdapter();
+        liveListRecycler.setAdapter(mLiveRoomListAdapter);
 
-        initData();
-        liveListAdapter.fillList(liveList);
-        liveListAdapter.notifyDataSetChanged();
+        mLiveRoomListAdapter.setOnItemClickListten(new LiveRoomListAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                if (mLiveRoomList != null) {
+                    stepIntoLive(mLiveRoomList.get(position).getInfo().getRoomnum(),
+                            mLiveRoomList.get(position).getUid());
+                }
+            }
+        });
     }
 
-    private void initData() {
-        LiveListEntity data = new LiveListEntity();
-        data.setUrl("storage/sdcard/DCIM/1.jpg");
-        data.setLiveTitle("直播标题");
-        data.setLiveBrieIntroduction("直播简介");
+    /**
+     * 以观众的身份进入房间
+     */
+    public void stepIntoLive(int roomNum, String anchorId) {
+        LogUtil.d(TAG, "stepIntoLive: enter live room");
+        Intent intent = new Intent(getContext(), LiveActivity.class);
+        intent.putExtra("role", Constants.ROLE_AUDIENCE);
+        intent.putExtra("roomNum", roomNum);
+        intent.putExtra("anchorId", anchorId);
+        startActivityForResult(intent, 0);
+    }
 
-        for (int i = 0; i < 5; i++) {
-            liveList.add(data);
-        }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.d(TAG, "onActivityResult: reload live list");
+        mLiveListPresenter.loadLiveRoomList();
+        mLiveRoomListAdapter.notifyDataSetChanged();
+    }
+
+    /*---------------------数据接口的实现-------------------------------*/
+
+    @Override
+    public void onError(int errorCode, String errMsg) {
+
+    }
+
+    @Override
+    public void loadLiveRoomList(List<ResponseLiveRoomInfo.Room> listRoomList) {
+        mLiveRoomList = listRoomList;
+        mLiveRoomListAdapter.fillList(listRoomList);
+        mLiveRoomListAdapter.notifyDataSetChanged();
     }
 }

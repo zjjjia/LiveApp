@@ -1,6 +1,4 @@
-package com.example.jiabo.liveapp.model.entity;
-
-import com.example.iLive.liveapp.model.entity.RecordInfo;
+package com.example.iLive.liveapp.model.entity;
 
 /**
  * Created by jiabo
