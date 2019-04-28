@@ -93,7 +93,6 @@ public class LivePresenter extends BasePresenter<ILiveView> {
      * 不断向sdk塞入自己采集的视频画面 true：启用；false：关闭
      */
     private void startLocalPreview() {
-        mTrtcCloud.enableCustomAudioCapture(true);
         //启动sdk摄像头采集和渲染
         mTrtcCloud.setLocalViewFillMode(TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FIT);
         mTrtcCloud.startLocalPreview(true, mLocalVideoPreview);      //开启本地视频采集和上行
