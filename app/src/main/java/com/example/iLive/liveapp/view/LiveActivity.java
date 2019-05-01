@@ -120,13 +120,6 @@ public class LiveActivity extends BaseActivity implements ILiveView {
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        LogUtil.d(TAG, "onBackPressed: click back key");
-        mLivePresenter.exitRoom();
-    }
-
     /*--------------------------------数据接口的实现----------------------------------*/
 
     @Override
