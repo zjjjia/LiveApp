@@ -22,7 +22,18 @@ public interface ILiveView extends IView {
      */
     void onUserExit(String userId, int reason);
 
+    /**
+     * 收到弹幕消息的回调
+     *
+     * @param userId  发送消息的用户的ID
+     * @param cmdID   消息类型；目前只有文字一种，可拓展为其他消息类型，如图片表情等
+     * @param message 弹幕内容
+     */
+    void onRecvCustomCmdMsg(String userId, int cmdID, String message);
+
     void onExitRoom(int reason);
+
+    void hostExitRoom();
 
     /**
      * 首帧视频画面到达，此时结束loading

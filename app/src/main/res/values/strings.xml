@@ -31,5 +31,10 @@
     <string name="domain_name_resolution_failed">域名解析失败</string>
     <string name="take_photo">拍照</string>
     <string name="choose_in_album">从手机相册选择</string>
+    <string name="anchor">主播：</string>
+    <string name="roomnum">房间号：</string>
+    <string name="say_something">说点什么吧</string>
+    <string name="send">发送</string>
+    <string name="host_exited">主播已下线</string>
 
 </resources>

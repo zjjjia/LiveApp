@@ -106,7 +106,7 @@ public class PickerView extends View {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        mLightColor = ContextCompat.getColor(mContext, R.color.input_cursor);
+        mLightColor = ContextCompat.getColor(mContext, R.color.clr_dark);
         mDarkColor = ContextCompat.getColor(mContext, R.color.color_text_gray);
     }
 

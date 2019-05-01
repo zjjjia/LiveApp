@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:gravity="center"
-        android:background="@color/clr_translucent"
+        android:background="@color/clr_translucent_gray"
         android:orientation="vertical">
         <ImageView
 
@@ -46,7 +46,7 @@
         android:hint="@string/set_live_title"
         android:textColorHint="@color/color_text_gray"
         android:textSize="15sp"
-        android:textColor="@color/input_cursor"
+        android:textColor="@color/clr_dark"
         android:paddingLeft="10dp"/>
 
     <ImageButton
@@ -65,7 +65,7 @@
         app:layout_constraintStart_toStartOf="@id/set_live_role"
         android:layout_marginLeft="10dp"
         android:text="@string/set_live_resolving_power"
-        android:textColor="@color/input_cursor"
+        android:textColor="@color/clr_dark"
         android:textSize="15sp"/>
 
     <TextView

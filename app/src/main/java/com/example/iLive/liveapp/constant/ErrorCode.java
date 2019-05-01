@@ -88,4 +88,8 @@ public class ErrorCode {
      * 域名解析失败
      */
     public static final int DNS_resolution_failed = 3006;
+
+    public static class LiveRoom{
+        public static final int SEND_FAILED = 3007;
+    }
 }
