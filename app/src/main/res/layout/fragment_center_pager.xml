@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:text="用户名"
-            android:textColor="@color/input_cursor"
+            android:textColor="@color/clr_dark"
             android:textSize="14sp"/>
 
     </LinearLayout>
@@ -53,7 +53,7 @@
         android:layout_marginLeft="10dp"
         android:text="@string/set_personal_data"
         android:textSize="15sp"
-        android:textColor="@color/input_cursor"/>
+        android:textColor="@color/clr_dark"/>
 
     <ImageView
         android:layout_width="35dp"

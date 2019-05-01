@@ -28,7 +28,7 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -41,7 +41,8 @@
         <activity
             android:name="com.example.iLive.liveapp.view.CreateLiveActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.example.iLive.liveapp.view.LiveActivity"></activity>
+        <activity android:name="com.example.iLive.liveapp.view.LiveActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

@@ -53,6 +53,7 @@ public class LivePresenter extends BasePresenter<ILiveView> {
             exitRoom();
         } else if (mUserRole == Constants.ROLE_AUDIENCE) {
             if (mTrtcCloud != null) {
+                sendBarrageMsg(MyselfInfo.getInstance().getId() + " exit room");
                 mTrtcCloud.exitRoom();
             }
         }
@@ -88,6 +89,23 @@ public class LivePresenter extends BasePresenter<ILiveView> {
     }
 
     /**
+     * 发送弹幕消息
+     */
+    public void sendBarrageMsg(String barrageMsg) {
+        //b:消息可靠发送，b1：消息有序发送
+        if(!barrageMsg.isEmpty()) {
+            boolean isSendSuccess = mTrtcCloud.sendCustomCmdMsg(Constants.MessageType.TEXT_MSG, barrageMsg.getBytes(), true, true);
+            if (!isSendSuccess) {
+                if (mIView == null) {
+                    LogUtil.e(TAG, "onHttpError: mIView = null");
+                    return;
+                }
+                mIView.onError(ErrorCode.LiveRoom.SEND_FAILED, "send barrage failed");
+            }
+        }
+    }
+
+    /**
      * 开始视频采集预览
      * 设置TRTC SDK的状态，开启该模式sdk只保留编码和发送能力，视频采集流程需要用sendCustomVideoData()
      * 不断向sdk塞入自己采集的视频画面 true：启用；false：关闭
@@ -100,7 +118,8 @@ public class LivePresenter extends BasePresenter<ILiveView> {
 
     }
 
-    private void exitRoom() {
+    public void exitRoom() {
+        LogUtil.d(TAG, "exitRoom: host exit room");
         RetrofitFactory.exitRoom(MyselfInfo.getInstance().getToken(), CurrentLiveInfo.getRoomNum())
                 .subscribe(new BaseObserver<RequestBackInfo>() {
                     @Override
@@ -111,7 +130,7 @@ public class LivePresenter extends BasePresenter<ILiveView> {
                                 mTrtcCloud.exitRoom();
                                 mTrtcCloud.setListener(null);
                                 mTrtcCloud.stopLocalPreview();                   //停止本地视频采集和上行
-                                mTrtcCloud.stopLocalAudio();                   //停止本地音频采集和上行
+                                mTrtcCloud.stopLocalAudio();                   //停止本地音频采集和上行.
                             }
                         } else {
                             if (mIView == null) {
@@ -187,6 +206,7 @@ public class LivePresenter extends BasePresenter<ILiveView> {
     @Override
     public void onEnterRoom(long elapsed) {
         LogUtil.d(TAG, "onEnterRoom: enter room success!");
+        sendBarrageMsg(MyselfInfo.getInstance().getId() + " enter room");
         if (mIView == null) {
             LogUtil.e(TAG, "onError: mIView = null");
             return;
@@ -197,12 +217,6 @@ public class LivePresenter extends BasePresenter<ILiveView> {
     @Override
     public void onUserEnter(String userId) {
         LogUtil.d(TAG, "onUserEnter: " + userId + " enter room");
-
-        if (mIView == null) {
-            LogUtil.e(TAG, "onError: mIView = null");
-            return;
-        }
-        mIView.onUserEnter(userId);
     }
 
     @Override
@@ -212,18 +226,40 @@ public class LivePresenter extends BasePresenter<ILiveView> {
             mTrtcCloud.setRemoteViewFillMode(MyselfInfo.getInstance().getId(), TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FIT);
             mTrtcCloud.startRemoteView(userId, mLocalVideoPreview);                       //开始显示远端用户的画面，即显示主播的画面
             mTrtcCloud.setAudioRoute(TRTCCloudDef.TRTC_AUDIO_ROUTE_SPEAKER);           //设置音频路由，即选择扬声器或提供播放声音，这里默认扬声器
+        } else {
+            if (mIView == null) {
+                LogUtil.e(TAG, "onError: mIView = null");
+                return;
+            }
+            mIView.onExitRoom(0);
         }
+    }
+
+    @Override
+    public void onRecvCustomCmdMsg(String userId, int cmdID, int seq, byte[] message) {
+        LogUtil.d(TAG, "onRecvCustomCmdMsg: cmdId:" + cmdID + "; userId: " + userId
+                + "; message: " + (new String(message)));
+        if (mIView == null) {
+            LogUtil.e(TAG, "onError: mIView = null");
+            return;
+        }
+        mIView.onRecvCustomCmdMsg(userId, cmdID, new String(message));
     }
 
     @Override
     public void onUserExit(String userId, int reason) {
         LogUtil.d(TAG, "onUserExit: " + userId + " exit room, reason: " + reason);
         mTrtcCloud.stopAllRemoteView();
-        if (mIView == null) {
-            LogUtil.e(TAG, "onError: mIView = null");
-            return;
+        if (userId.equals(mAnchorId)) {
+            if (mIView == null) {
+                LogUtil.e(TAG, "onError: mIView = null");
+                return;
+            }
+            mIView.hostExitRoom();
+        }else {
+            sendBarrageMsg(userId + " exit room");
         }
-        mIView.onUserExit(userId, reason);
+
     }
 
     @Override

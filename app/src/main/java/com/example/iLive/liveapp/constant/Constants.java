@@ -21,16 +21,21 @@ public class Constants {
     /**
      * 互动直播sdk 的sdk appid
      */
-    public static final int SDK_APP_ID = 1400206453;
-
-    /**
-     * 账号模块的账号集成类型代码
-     */
-    public static final int ACCOUNT_TYPE = 36862;
+    public static final int SDK_APP_ID = 1400205648;
 
     /**
      * 进入房间的角色；0：主播；1：观众
-     * */
+     */
     public static final int ROLE_ANCHOR = 0;
     public static final int ROLE_AUDIENCE = 1;
+
+    /**
+     * 自定义消息类型
+     */
+    public static class MessageType {
+        /**
+         * 文本消息
+         */
+        public static final int TEXT_MSG = 0;
+    }
 }

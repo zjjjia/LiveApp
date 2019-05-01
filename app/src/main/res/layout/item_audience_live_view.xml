@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/anchor_label"
+        style="@style/text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/anchor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/host_id"
+        style="@style/text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@id/anchor_label"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        style="@style/weight_center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/roomnum" />
+
+        <TextView
+            android:id="@+id/room_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/barrage_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="51dp"
+        android:background="@color/clr_translucent_gray"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <View
+        android:id="@+id/under_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_text_gray"
+        app:layout_constraintTop_toBottomOf="@id/barrage_recycler_view" />
+
+    <EditText
+        android:id="@+id/barrage_input"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/clr_translucent_gray"
+        android:hint="@string/say_something"
+        android:paddingStart="10dp"
+        android:paddingLeft="10dp"
+        android:paddingEnd="80dp"
+        android:paddingRight="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/send_barrage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/send_barrage"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:background="@color/clr_translucent_gray"
+        android:text="@string/send"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

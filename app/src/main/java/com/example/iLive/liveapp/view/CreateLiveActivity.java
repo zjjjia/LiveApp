@@ -247,6 +247,7 @@ public class CreateLiveActivity extends BaseActivity implements View.OnClickList
         Intent intent = new Intent(this, LiveActivity.class);
         intent.putExtra("role", Constants.ROLE_ANCHOR);
         startActivity(intent);
+        finish();
     }
 
     @Override
