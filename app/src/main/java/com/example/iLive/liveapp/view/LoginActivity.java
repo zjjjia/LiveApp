@@ -118,8 +118,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.login_in_btn:
                 //登录的操作
-                //login();
-                mLoginPresenter.login("test2", "jiabo123");
+                login();
                 break;
             case R.id.step_into_register:
                 //没有账号，去注册

@@ -30,7 +30,6 @@
         android:id="@+id/barrage_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="@color/clr_translucent_gray"
         app:layout_constraintBottom_toBottomOf="parent">
 
     </android.support.v7.widget.RecyclerView>
